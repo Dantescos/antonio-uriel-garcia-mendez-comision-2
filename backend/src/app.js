@@ -11,7 +11,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "http://http://localhost:5173",
+    origin: "http://localhost:5173",
   })
 );
 app.use(morgan("dev"));
