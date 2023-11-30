@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import {Schema , model } from "mongoose";
 
-const postSchema = new mongoose.Schema(
+const postSchema = new Schema(
   {
     title: {
       type: String,
@@ -14,8 +14,8 @@ const postSchema = new mongoose.Schema(
       required: true,
     },
     autor: {
-      type: String,
-      trim: true,
+      type: Schema.Types.ObjectId,
+      ref: "user",
       required: true,
     },
     comments: {
@@ -41,4 +41,4 @@ const postSchema = new mongoose.Schema(
   }
 );
 
-export default mongoose.model("Post", postSchema);
+export default model ("Post", postSchema);
