@@ -3,20 +3,19 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-//puerto
+//devuelve el puerto en una guardado en una vairable
 export const settingDotEnvPort = () => {
   return { port: process.env.PORT };
 };
-//base de datos
-export const settingDotEnvDb = () => {
+//guarda la base de datos
+export const settingDotEnvDB = () => {
   return {
     db: {
-      host: process.env.DB_HOST,
       localhost: process.env.DB_LOCALHOST,
     },
   };
 };
-//palabra secreta del token
+//Token de seguridad
 export const settingSecretToken = () => {
-  return { secret: process.env.SECRET };
+  return { secret: process.env.TOKEN_SECRET };
 };

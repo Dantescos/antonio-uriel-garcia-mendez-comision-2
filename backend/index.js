@@ -1,7 +1,9 @@
 import app from "./src/app.js"
-import {connectDB} from "./src/db.js"
+import {connectDB} from "./database/db.js"
+import { settingDotEnvPort } from "./src/config/config.js";
 
 
-connectDB();
-app.listen(3000)
-console.log("server on port",3000)
+const { port } = settingDotEnvPort();
+
+app.listen(port, console.log(`server en el puerto ${port}` ) )
+

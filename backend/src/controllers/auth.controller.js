@@ -6,21 +6,17 @@ import { createAccessToken } from "../libs/jwt.js";
 
 export const register = async (req, res) => {
   const { email, password, username } = req.body;
-
   try {
-
     const userFound = await User.findOne({email})
     if (userFound) return res.status(400).json({message:"el email ya existe"})
-
     const passwordHash = await bcrypt.hash(password, 10);
-
     const newUser = new User({
       username,
       email,
       password: passwordHash,
     });
     const userSaved = await newUser.save();
-    const token = await createAccessToken({ id: userSaved .id });
+    const token = await createAccessToken({ id: userSaved._id });
     res.cookie("token", token);
     res.json({
       id: userSaved._id,
@@ -35,26 +31,21 @@ export const register = async (req, res) => {
 };
 
 export const login = async (req, res) => {
-  const { username, password } = req.body;
-
+  const { email, password } = req.body;
   try {
-    const userFound = await User.findOne({ username });
-
-    if (!userFound) return res.status(400).json([ "usuario en uso" ]);
-
+    const userFound = await User.findOne({ email });
+    if (!userFound) return res.status(400).json([ "usuario no hallado" ]);
+    
     const isMatch = await bcrypt.compare(password, userFound.password);
-
+  
     if (!isMatch)
       return res.status(400).json({ message: "Contraseña incorrecta" });
 
-    const token = await createAccessToken({ id: userFound.id });
-    res.cookie("token", token);
-    res.json({
-      id: userFound._id,
+      const token = await createAccessToken({ id: userFound.id });
+      res.cookie("token", token);
+      res.json({
       username: userFound.username,
       email: userFound.email,
-      createdAt: userFound.createdAt,
-      updatedAt: userFound.updatedAt,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -69,15 +60,16 @@ export const logout = (req, res) => {
 };
 
 export const profile = async (req, res) => {
+  try{ 
   const userFound = await User.findById(req.user.id);
-  if (!userFound)
-    return res.status(400).json({ message: "usuario no  encontrado" });
+  if (!userFound) 
+  return res.status(400).json({ message: "usuario no  encontrado" });
   return res.json({
     id: userFound._id,
     username: userFound.username,
     email: userFound.email,
-    createdAt: userFound.createdAt,
-    updatedAt: userFound.updatedAt,
   });
-  res.send("profile");
+  } catch (error){
+    res.send("profile");
+  }
 };

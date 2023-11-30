@@ -5,9 +5,10 @@ import authRoutes from "./routes/auth.routes.js";
 import taskRoutes from "./routes/task.routes.js";
 import helmet from "helmet";
 import cors from "cors";
-import { indexRoutes } from "../src/routes/index.routes.js";
+import {connectDB} from "../database/db.js"
 
-const app = express();
+ export const app = express();
+ connectDB()
 
 app.use(
   cors({
@@ -20,6 +21,6 @@ app.use(cookiParser());
 app.use("/api", authRoutes);
 app.use("/api", taskRoutes);
 app.use(helmet());
-app.use("/", indexRoutes);
+//app.use("/", indexRoutes);
 
 export default app;
