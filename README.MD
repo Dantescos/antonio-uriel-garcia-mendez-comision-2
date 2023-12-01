@@ -1,6 +1,11 @@
 Proyecto Final Epica Tramo 
 
-Para iniciar el proyecto en un terminal primero debera instalarse mediante npm los modulos de la siguiente forma
+Para iniciar el proyecto en un terminal primero debera instalarse mediante npm los modulos de la siguiente forma primero descargamos el proyecto 
+en caso de descargar en .rar descomprimir y en la carpeta extraida abrimos un terminal y tipeamos
+
+`code .`
+
+acto seguido que se abra el visual code en un nuevo terminal tipeamos
 
 `cd backend `
 
@@ -29,7 +34,11 @@ y procedeos a ejecutar
 
 para instalar las dependencias de node
 
-acto seguido ejecutamos nuevamente nom run dev y ya tendremos el fronted funcional
+acto seguido ejecutamos nuevamente 
+
+`npm run dev `
+
+y ya tendremos el fronted funcional
 
 este proyecto fue basado con base de datos en moogo y para se utilizo thunder client para las pruebas de backend
 
