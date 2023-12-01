@@ -21,7 +21,7 @@ export const validateLogin =[
 export const handleErrorValidation = (req,res,next) =>{
     const error = validationResult(req)
     if(!error.isEmpty()){
-        return res.status(400).json({message:"errror en la valiacion de atributos"})
+        return res.status(400).json([error.errors[0].msg])
 }
 next()
  }

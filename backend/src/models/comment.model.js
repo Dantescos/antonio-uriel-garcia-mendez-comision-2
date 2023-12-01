@@ -1,10 +1,10 @@
-import mongoose from "mongoose";
+import { Schema, model } from "mongoose";
 
-const commentSchema = new mongoose.Schema(
+const commentSchema = new Schema(
   {
     autor: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
+      type: Schema.Types.ObjectId,
+      ref: 'User',
       required: true,
     },
     description: {
@@ -12,11 +12,14 @@ const commentSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    post: {
+      type: Schema.Types.ObjectId,
+      ref: 'Post',
+      required: true,
+    },
   },
   {
     timestamps: true,
     versionKey: false,
   }
 );
-
-export default mongoose.model("Comment", commentSchema);

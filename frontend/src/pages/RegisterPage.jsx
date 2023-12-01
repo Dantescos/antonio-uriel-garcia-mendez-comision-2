@@ -4,23 +4,36 @@ import { useAuth } from "../context/AuthContex";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom"
 import { Link } from "react-router-dom";
+import { registerRequest } from "../api/auth";
+import Navbar from "../components/Navbar";
 
-function RegisterPage() {
+
+export const RegisterPage = () => {
   const { register, handleSubmit, formState: { errors } } = useForm();
-  const { signup, isAuthenticated, errors: RegisterErrors } = useAuth();
+  const { signup, isAuthenticated, errors: registerErrors } = useAuth();
+  
   const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isAuthenticated) navigate("/posts");
-  }, [isAuthenticated]);
-
+    useEffect(() => {
+      if (isAuthenticated) navigate("/post");
+    }, [isAuthenticated]);
+  
   const onSubmit = handleSubmit(async (values) => {
+  
+    console.log(values);
+    const res = await registerRequest(values);
+    console.log(res);
     signup(values);
   });
+  
+
 
   return (
+
+
+    <>
+    <Navbar />
     <div className="login-contenedor">
-      {Array.isArray(RegisterErrors) && RegisterErrors.map((error, i) => (
+      {registerErrors.map((error, i) => (
         <div className="Mensaje-error" key={i}>
           {error}
         </div>
@@ -58,7 +71,7 @@ function RegisterPage() {
       </form>
       <p>¿ya tiene una cuenta?<Link to="/login" className="boton-registro"> Ingresar </Link> </p>
     </div>
-  );
+  </>
+);
 }
 
-export default RegisterPage;

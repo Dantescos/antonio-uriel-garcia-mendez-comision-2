@@ -1,3 +1,17 @@
+
+body {
+
+    background-image: url('../imagenes/e31f6febd7755ec0c24890950fbe46bc.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+   
+}
+
+
 .login-contenedor{
     display: flex;
     flex-direction: column;
@@ -44,3 +58,4 @@
 
         color: red;
      }
+

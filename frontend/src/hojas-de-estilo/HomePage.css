@@ -1,0 +1,41 @@
+body {
+
+    background-image: url('../imagenes//e31f6febd7755ec0c24890950fbe46bc.jpg');
+    background-size: cover;
+    background-position: center;
+    height: 100vh; 
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.Inicio-registro {
+    justify-content:left;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    border-radius: 3px;
+    
+}
+
+.botons-registro{
+
+    background-color: #26c2dd;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    margin: 4px 2px;
+    cursor: pointer;
+    transition-duration: 0.4s;
+    border-radius: 3px;
+
+}

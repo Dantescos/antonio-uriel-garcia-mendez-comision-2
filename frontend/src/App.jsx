@@ -1,19 +1,21 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
-import RegisterPage from "./pages/RegisterPage";
+import { BrowserRouter,Router, Route, Routes } from "react-router-dom";
+import {RegisterPage} from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import { AuthProvider } from "./context/AuthContex";
+import { HomePage } from "./pages/homePage";
+import { Postspage } from "./pages/postpage";
+
+
 function App() {
   return (
   <AuthProvider>
     <BrowserRouter>
         <Routes>
-          <Route path="/" element={<h1>home page</h1>} />
+          <Route path="/" element={<HomePage/>} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/register" element={<RegisterPage />} />
-          <Route path="/posts" element={<h1>Posts</h1>} />
-          <Route path="/add-post" element={<h1>Nuevo Posts</h1>} />
-          <Route path="/post/:id" element={<h1>editar posts</h1>} />
-          <Route path="/profile" element={<h1>Perfil</h1>} />
+          <Route path="/posts" element={<Postspage />} />
+          <Route path="/profile" element={<profilepage />} />
         </Routes>
       </BrowserRouter>
   </AuthProvider>
