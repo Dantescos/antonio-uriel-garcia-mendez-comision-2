@@ -1,5 +1,4 @@
 import app from "./src/app.js"
-import {connectDB} from "./database/db.js"
 import { settingDotEnvPort } from "./src/config/config.js";
 
 

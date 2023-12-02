@@ -11,13 +11,16 @@ import {connectDB} from "../database/db.js"
  connectDB()
 
 app.use(
-  cors({
-    origin: "http://localhost:5174",
+    cors({
+      origin: "http://localhost:5173",
+      methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+      credentials: true
   })
 );
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(cookiParser());
+app.options('*', cors());
 app.use("/api", authRoutes);
 app.use("/api", postRoutes);
 app.use(helmet());

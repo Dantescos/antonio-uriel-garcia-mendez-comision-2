@@ -69,7 +69,7 @@ export const profile = async (req, res) => {
     username: userFound.username,
     email: userFound.email,
   });
-  } catch (error){
-    res.send("profile");
-  }
+} catch (error) {
+  res.status(500).json({ message: error.message });
+}
 };

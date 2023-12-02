@@ -14,11 +14,10 @@ export const RegisterPage = () => {
   
   const navigate = useNavigate();
     useEffect(() => {
-      if (isAuthenticated) navigate("/post");
+      if (isAuthenticated) navigate("/home");
     }, [isAuthenticated]);
   
   const onSubmit = handleSubmit(async (values) => {
-  
     console.log(values);
     const res = await registerRequest(values);
     console.log(res);
@@ -69,7 +68,7 @@ export const RegisterPage = () => {
           Register{" "}
         </button>
       </form>
-      <p>¿ya tiene una cuenta?<Link to="/login" className="boton-registro"> Ingresar </Link> </p>
+      <p className="Texto-login">¿ya tiene una cuenta?<Link to="/login" className="boton-registro"> Ingresar </Link> </p>
     </div>
   </>
 );
