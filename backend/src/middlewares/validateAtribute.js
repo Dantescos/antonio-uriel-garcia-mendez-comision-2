@@ -2,20 +2,17 @@
 import {body,validationResult} from 'express-validator'
 
  export const validateRegister =[
-    body("username").notEmpty().withMessage("el nombre de usuario no debe estar vacio ").isLength({min:6}).withMessage("el minimo de largo es 6 caracteres "),
+    body("username").notEmpty().withMessage("Username no debe estar vacío").isLength({ min: 6 }).withMessage("El Username debe tener al menos 6 caractéres"),
 
-    body("email").notEmpty().withMessage("email no puede estar vacio").isEmail().withMessage("ingrese un mail valido"),
+  body("email").isEmail().withMessage("Por favor ingrese un mail válido"),
 
-    body("password").notEmpty().withMessage("el password no puede estar vacio ").isLength({min:6}).withMessage("el minimo de largo es 6 caracteres ")
+  body("password").notEmpty().withMessage("El Password es obligatorio").isLength({ min: 6 }).withMessage("Longitud mínima del password es de 6 caractéres"),
 
 ]
 export const validateLogin =[
-    body("username").notEmpty().withMessage("el nombre de usuario no debe estar vacio ").isLength({min:6}).withMessage("el minimo de largo es 6 caracteres "),
+    body("email").isEmail().withMessage("Por favor ingrese un mail válido"),
 
-    body("email").notEmpty().withMessage("email no puede estar vacio").isEmail().withMessage("ingrese un mail valido"),
-
-    body("password").notEmpty().withMessage("el password no puede estar vacio ").isLength({min:6}).withMessage("el minimo de largo es 6 caracteres ")
-
+    body("password").notEmpty().withMessage("El Password es obligatorio").isLength({ min: 6 }).withMessage("Longitud mínima del password es de 6 caractéres"),
 ]
 
 export const handleErrorValidation = (req,res,next) =>{
