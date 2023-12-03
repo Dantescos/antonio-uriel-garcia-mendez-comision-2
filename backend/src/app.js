@@ -1,6 +1,6 @@
 import express from "express";
 import morgan from "morgan";
-import cookiParser from "cookie-parser";
+import CookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.routes.js";
 import postRoutes from "./routes/post.routes.js";
 import helmet from "helmet";
@@ -19,7 +19,7 @@ app.use(
 );
 app.use(morgan("dev"));
 app.use(express.json());
-app.use(cookiParser());
+app.use(CookieParser());
 app.options('*', cors());
 app.use("/api", authRoutes);
 app.use("/api", postRoutes);

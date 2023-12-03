@@ -1,12 +1,12 @@
 import jwt from "jsonwebtoken";
 import { settingSecretToken } from "../config/config.js";
-import { token } from "morgan";
+
 
 const {secret} = settingSecretToken();
 
 
 
-export const authrequired = (req, res, next) => {
+export const authRequired = (req, res, next) => {
 
   const {token} = req.cookie;
 

@@ -1,8 +1,8 @@
 import User from "../models/usuarios.modelo.js";
 import bcrypt from "bcryptjs";
-import hash from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { createAccessToken } from "../libs/jwt.js";
+import { TOKEN_SECRET } from "../config/config.js";
 
 export const register = async (req, res) => {
   const { email, password, username } = req.body;
@@ -30,6 +30,9 @@ export const register = async (req, res) => {
   }
 };
 
+
+
+
 export const login = async (req, res) => {
   const { email, password } = req.body;
   try {
@@ -51,10 +54,16 @@ export const login = async (req, res) => {
   }
 };
 
+
+
+
 export const logout = (req, res) => {
   res.cookie("token", "", { expires: new Date(0) });
   return res.status(200).json({ message: "Hasta pronto!" });
 };
+
+
+
 
 export const profile = async (req, res) => {
   try{ 
@@ -69,4 +78,25 @@ export const profile = async (req, res) => {
 } catch (error) {
   res.status(500).json({ message: error.message });
 }
+};
+
+
+const { secret } = TOKEN_SECRET;
+export const verifyToken = async (req, res) => {
+  const { token } = req.cookies;
+
+  if (!token) return res.status(401).json({ message: "No autorizado" });
+
+  jwt.verify(token, secret, async (err, user) => {
+    if (err) return res.status(401).json({ message: "No autorizado" });
+
+    const userFound = await User.findById(user.id);
+    if (!userFound) return res.status(401).json({ message: "No autorizado" });
+
+    return res.json({
+      id: userFound._id,
+      username: userFound.username,
+      email: userFound.email,
+    });
+  });
 };
