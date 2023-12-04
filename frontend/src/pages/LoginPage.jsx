@@ -10,34 +10,32 @@ import Navbar from "../components/Navbar";
 export const LoginPage =  () =>  { 
 const {register, handleSubmit, formState: { errors } } = useForm();
   
-const { signin, errors: signinErrors ,setIsAuthenticated} = useAuth();
+const { signin, errors: loginErrors ,setIsAuthenticated} = useAuth();
 
   
 
-const onSubmit = (value) => signin(value);
 
-  useEffect(() => {
-    if (setIsAuthenticated) {
-      navigate("/post");
-    }
-  }, [setIsAuthenticated]);
+const navigate = useNavigate();
+useEffect(() => {
+  if (setIsAuthenticated) navigate("/home");
+}, [setIsAuthenticated]);
 
 
 
-
-  return (
-
-    
+const onSubmit = handleSubmit((data) => {
+  signin(data);
+});
+  return ( 
     <>
-    <Navbar /> {/* Agrega tu Navbar aquí */}
+    <Navbar /> {}
     <div className="login-contenedor">
       <h1 className="Texto-logeo">Login</h1>
-      <form onSubmit={onSubmit}>
-        {signinErrors.map((error, i) => (
-          <div className="Mensaje-error" key={i}>
+        {loginErrors.map((error, i) => (
+          <div key={i} className="Mensaje-error" >
             {error}
           </div>
         ))}
+         <form onSubmit={onSubmit}>
         <input
           type="text"
           {...register("Email", { required: true })}
@@ -59,16 +57,15 @@ const onSubmit = (value) => signin(value);
         )}
 
         <button type="submit" className="boton-registro">
-          {" "}
-          login{" "}
+          login
         </button>
       </form>
       <p>
         ¿no tiene una cuenta?
         <Link to="/register" className="boton-registro">
-          {" "}
-          Registrarse{" "}
-        </Link>{" "}
+
+          Registrarse
+        </Link>
       </p>
     </div>
   </>

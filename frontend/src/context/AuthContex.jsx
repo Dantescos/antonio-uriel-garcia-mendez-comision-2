@@ -21,49 +21,46 @@ export const AuthProvider = ({ children }) => {
 
 
 
-  const signup = async (user) => {
+
+ const signup = async (user) => {
     try {
       const res = await registerRequest(user);
-      console.log(res);
-      setUser(res);
-      setIsAuthenticated(true);
-    } catch (error) {
-      if (error.response) {
-        console.log(error.response.data);
-        setErrors(error.response.data);
-      } else if (error.request) {
-        console.error("Error durante la solicitud:", error.request);
-      } else {
-        console.error("Error:", error.message);
+      if (res.status === 200) {
+        setUser(res.data);
+        setIsAuthenticated(true);
       }
+    } catch (error) {
+      console.log(error.response.data);
+      setErrors(error.response.data.message);
     }
   };
-
   const signin = async (user) => {
     try {
       const res = await loginRequest(user);
       setUser(res.data);
       setIsAuthenticated(true);
     } catch (error) {
-      setErrors(error.response.data);
+      console.log(error);
+     setErrors(error.response.data.message);
     }
   };
 
-  const signout = () => {
+  const logout = () => {
     Cookies.remove("token");
     setIsAuthenticated(false);
     setUser(null);
   };
 
-  useEffect(() => {
-    if (errors.length > 0) {
-      const timer = setTimeout(() => {
-        setErrors([]);
-      }, 5000);
-      return () => clearTimeout(timer);
-    }
-  }, [errors]);
 
+
+  useEffect(() => {
+    if (errors && errors.length > 0) {
+       const timer = setTimeout(() => {
+         setErrors([]);
+       }, 5000);
+       return () => clearTimeout(timer);
+    }
+   }, [errors]);
 
   useEffect(() => {
     async function verifyLogin() {
@@ -89,7 +86,7 @@ export const AuthProvider = ({ children }) => {
 
   return (
     <AuthContext.Provider
-      value={{ signup, signin, signout, user, isAuthenticated, errors }}
+      value={{ signup, signin, logout, user, isAuthenticated, errors }}
     >
       {children}
     </AuthContext.Provider>

@@ -8,7 +8,7 @@ import { registerRequest } from "../api/auth";
 import Navbar from "../components/Navbar";
 
 export const RegisterPage = () => {
- const { register, handleSubmit, reset, formState: { errors } } = useForm();
+ const { register, handleSubmit, formState: { errors } } = useForm();
  const { signup, isAuthenticated, errors: registerErrors } = useAuth();
 
  const navigate = useNavigate();
@@ -17,53 +17,45 @@ export const RegisterPage = () => {
  }, [isAuthenticated]);
 
  const onSubmit = handleSubmit(async (values) => {
-    console.log(values);
-    reset(); // Limpiar los errores
-    const res = await registerRequest(values);
-    console.log(res);
     signup(values);
  });
-
- const renderErrorMessage = (fieldName) => {
-    if (errors[fieldName]) {
-      return <p className="texto-error">{errors[fieldName].message}</p>;
-    }
-    return null;
- };
 
  return (
     <div>
       <Navbar />
       <div className="login-contenedor">
-        {registerErrors.map((error, i) => (
-          <div className="Mensaje-error" key={i}>
-            {error}
-          </div>
-        ))}
+      {registerErrors && registerErrors.map((error, i) => (
+    <Message message={error} key={i} />
+))}
         <form onSubmit={onSubmit}>
           <input
             type="text"
-            {...register("username", { required: "Nombre de usuario es requerido" })}
+            {...register("username", { required: true })}
             placeholder="Username"
             className="registro-casilla"
           />
-          {renderErrorMessage("username")}
-
+          {errors.username && (
+            <p className="error-usuario">El Username es requerido</p>
+          )}
           <input
             type="email"
-            {...register("email", { required: "Email es requerido" })}
+            {...register("email", { required: true })}
             placeholder="Email"
             className="registro-casilla"
           />
-          {renderErrorMessage("email")}
+          {errors.email && (
+            <p className="error-email">El Email es requerido</p>
+          )}
 
           <input
             type="password"
-            {...register("password", { required: "Contraseña es requerido" })}
+            {...register("password", { required: true })}
             placeholder="Password"
             className="registro-casilla"
           />
-          {renderErrorMessage("password")}
+         {errors.password && (
+            <p className="pasword-error">El Password es requerido</p>
+          )}
 
           <button type="submit" className="boton-registro">
             {" "}
