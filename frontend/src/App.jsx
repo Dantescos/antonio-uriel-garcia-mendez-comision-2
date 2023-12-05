@@ -19,7 +19,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
 
       <Route element={<ProtectedRoutes/>}>
-          <Route path="/posts" element={< Postspage />} />
+          <Route path="/post" element={< Postspage />} />
           <Route path="/profile" element={<profilepage />} />
       </Route>
         </Routes>
