@@ -1,4 +1,4 @@
-import { BrowserRouter,Router, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import {RegisterPage} from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import { AuthProvider } from "./context/AuthContex";

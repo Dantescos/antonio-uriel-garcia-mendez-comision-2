@@ -34,14 +34,17 @@ export const AuthProvider = ({ children }) => {
       setErrors(error.response.data.message);
     }
   };
+
+  
   const signin = async (user) => {
     try {
       const res = await loginRequest(user);
-      setUser(res.data);
-      setIsAuthenticated(true);
+      if (res.status === 200) {
+        setUser(res.data);
+        setIsAuthenticated(true);
+      }
     } catch (error) {
-      console.log(error);
-     setErrors(error.response.data.message);
+      setErrors(error.response.data)
     }
   };
 
