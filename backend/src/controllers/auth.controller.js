@@ -54,16 +54,10 @@ export const login = async (req, res) => {
   }
 };
 
-
-
-
 export const logout = (req, res) => {
   res.cookie("token", "", { expires: new Date(0) });
   return res.status(200).json({ message: "Hasta pronto!" });
 };
-
-
-
 
 export const profile = async (req, res) => {
   try{ 
@@ -88,7 +82,7 @@ export const verifyToken = async (req, res) => {
   if (!token) return res.status(401).json({ message: "No autorizado" });
 
   jwt.verify(token, secret, async (err, user) => {
-    if (err) return res.status(401).json({ message: "No autorizado" });
+    if (err) return res.status(401).json({ message: "no autorizado" });
 
     const userFound = await User.findById(user.id);
     if (!userFound) return res.status(401).json({ message: "No autorizado" });

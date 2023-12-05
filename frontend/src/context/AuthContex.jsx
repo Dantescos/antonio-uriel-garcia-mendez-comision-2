@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { registerRequest, loginRequest } from "../api/auth";
+import { registerRequest, loginRequest , verifyToken } from "../api/auth";
 import Cookies from "js-cookie";
 
 
@@ -18,6 +18,8 @@ export const AuthProvider = ({ children }) => {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   
   const [errors, setErrors] = useState([]);
+  
+  const[loading , setLoading] = useState(true)
 
 
 
@@ -68,28 +70,28 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     async function verifyLogin() {
       const cookies = Cookies.get();
-      if (cookies.token) {
+      if (!cookies.token) {
+        setIsAuthenticated(false);
+        setLoading(false)
+        return setUser(null);
+         }
         try {
           const res = await verifyToken(cookies.token);
-          console.log(res);
-          if (res.data) {
-            setIsAuth(true);
-            setUser(res.data);
-          } else {
-            setIsAuth(false);
-          }
+          if (!res.data) return setIsAuthenticated(false);
+          setIsAuthenticated(true);
+          setUser(res.data);
+          setLoading(false);
         } catch (error) {
-          setIsAuth(false);
-          setUser(null);
+          setIsAuthenticated(false);
+          setLoading(false)
         }
       }
-    }
     verifyLogin();
   }, []);
 
   return (
     <AuthContext.Provider
-      value={{ signup, signin, logout, user, isAuthenticated, errors }}
+      value={{ signup, signin, logout,loading, user, isAuthenticated, errors }}
     >
       {children}
     </AuthContext.Provider>
