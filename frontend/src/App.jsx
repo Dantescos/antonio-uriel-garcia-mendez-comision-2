@@ -3,9 +3,10 @@ import {RegisterPage} from "./pages/RegisterPage";
 import LoginPage from "./pages/LoginPage";
 import { AuthProvider } from "./context/AuthContex";
 import { HomePage } from "./pages/homePage";
-import { Postspage } from "./pages/Postpage";
+import PostPage from "./pages/postpage";
 import { HomePageL } from "./pages/homePage-L";
 import ProtectedRoutes from "./ProtectedRoutes";
+import NewPost from "./pages/NewPost";
 
 
 function App() {
@@ -19,7 +20,8 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
 
       <Route element={<ProtectedRoutes/>}>
-          <Route path="/post" element={< Postspage />} />
+          <Route path="/post" element={<PostPage />} />
+          <Route path="/post/new" element={<NewPost />} />
           <Route path="/profile" element={<profilepage />} />
       </Route>
         </Routes>

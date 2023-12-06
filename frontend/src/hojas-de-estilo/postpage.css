@@ -1,0 +1,14 @@
+.container {
+    display: flex;
+    min-height: 90vh;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    width: 800px;
+  }
+
+
+  .section {
+    flex: 1;
+  }
+  
