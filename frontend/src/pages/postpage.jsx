@@ -12,14 +12,18 @@ function PostPage() {
   const { isAuthenticated } = useContext(AuthContext);
 
   const getPost = useCallback(() => {
-    axios.get(`${API_URL}/post`, {
-      headers: {
-        Authorization: isAuthenticated.token,
-      },
-    })
-      .then((response) => setPosts(response.data))
-      .catch((error) => console.error(error));
-  }, [isAuthenticated.token]);
+    if (isAuthenticated && isAuthenticated.token) {
+      axios.get(`${API_URL}/post`, {
+        headers: {
+          Authorization: `Bearer ${isAuthenticated.token}`,
+        },
+      })
+        .then((response) => setPosts(response.data))
+        .catch((error) => console.error(error));
+    } else {
+      console.error("Usuario no autenticado");
+    }
+  }, [isAuthenticated]);
 
   useEffect(() => {
     getPost();

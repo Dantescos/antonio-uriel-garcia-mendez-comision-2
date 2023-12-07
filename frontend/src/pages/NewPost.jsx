@@ -51,23 +51,25 @@ const NewPost = () => {
   return (
     <div>
       <Navbar />
-      <h2>Creando nuevo posteo</h2>
+      <h2 className="Titulo-post"> nuevo posteo</h2>
       <form onSubmit={handleSubmit} className="formulario-crear">
         <div className="div-crear">
-          <label htmlFor={titleId}>Title:</label>
-          <input
+          <label className="Sub-titulos" htmlFor={titleId}>Title:</label>
+          <input className="area-imput"
             type="text"
             id={titleId}
             placeholder="Nuevo Post"
             value={title}
             onChange={(e) => {
               setTitle(e.target.value);
+         
             }}
           />
         </div>
         <div className="div-crear">
-          <label htmlFor="description">Description:</label>
+          <label className="Sub-titulos" htmlFor="description">Description:</label>
           <input
+          className="area-imput"
             type="text"
             id="description"
             placeholder="Description"
@@ -78,8 +80,9 @@ const NewPost = () => {
           />
         </div>
         <div className="div-crear">
-          <label htmlFor="imageURL">Image URL:</label>
+          <label className="Sub-titulos" htmlFor="imageURL">Image URL:</label>
           <input
+          className="area-imput"
             type="text"
             id="imageURL"
             placeholder="Image URL"

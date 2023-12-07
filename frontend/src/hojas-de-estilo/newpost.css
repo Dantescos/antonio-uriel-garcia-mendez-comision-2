@@ -20,5 +20,67 @@
     color: #fff;
   }
   
+
+  .Titulo-post{
+
+    font-size: 2.5em;
+  color: #0f94c9; 
+  text-align: center;
+  margin: 20px 0; 
+  text-transform: uppercase;
+  }
+
+  .Titulo-post::after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 2px; 
+    background-color: #3498db; 
+    margin-top: 10px; 
+  }
   
+  .formulario-crear{
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+
+  .div-crear{
+
+    width: 100%;
+    padding: 10px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    display: block;
+  font-weight: bold;
+  margin-bottom: 8px;
+
+  }
+
+.area-imput{
+  padding: 10px;
+  font-size: 16px;
+  border: 1px solid #ddd; 
+  border-radius: 5px; 
+  margin-bottom: 15px;
+  width: 100%;
+  box-sizing: border-box;
+  text-align: center;
+}
+
+
+.Sub-titulos{
+  color: #0f94c9;
+  padding: 12px;
+  margin: 8px 0;
+  display: flex;
+  border: 1px solid   #0f94c9;
+  border-radius: 4px;
+  margin-bottom: 8px;
+  background-color: #fffdfd;
+}
   
