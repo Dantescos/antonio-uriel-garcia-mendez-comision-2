@@ -1,36 +1,51 @@
 import { useContext, useId, useState } from "react";
+import axios from "axios";
 import { API_URL } from "../utils/consts";
 import { AuthContext } from "../context/AuthContex";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import '../hojas-de-estilo/newpost.css';
 
-
 const NewPost = () => {
   const titleId = useId();
   const [title, setTitle] = useState("");
-
+  const [description, setDescription] = useState("");
+  const [imageURL, setImageURL] = useState("");
+  
   const navigate = useNavigate();
-
   const { isAuthenticated } = useContext(AuthContext);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if (!title.trim()) return;
+    if (!title.trim() || !description.trim() || !imageURL.trim()) return;
 
-    fetch(`${API_URL}/post`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: isAuthenticated.token,
-      },
-      body: JSON.stringify({ title: title.trim() }),
-    }).then((res) => {
-      if (res.status !== 201) return;
+    try {
+      const response = await axios.post(
+        `${API_URL}/post`,
+        {
+          title: title.trim(),
+          description: description.trim(),
+          imageURL: imageURL.trim(),
+        },
+        {
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: isAuthenticated.token,
+          },
+        }
+      );
 
-      navigate("/post");
-    });
+      if (response.status === 201) {
+        navigate("/post");
+      } else {
+        console.error("Error en la respuesta:", response.status);
+      
+      }
+    } catch (error) {
+      console.error("Error en la solicitud:", error.message);
+      
+    }
   };
 
   return (
@@ -50,7 +65,33 @@ const NewPost = () => {
             }}
           />
         </div>
-        <button type="submit" className="botons-registro">Create</button>
+        <div className="div-crear">
+          <label htmlFor="description">Description:</label>
+          <input
+            type="text"
+            id="description"
+            placeholder="Description"
+            value={description}
+            onChange={(e) => {
+              setDescription(e.target.value);
+            }}
+          />
+        </div>
+        <div className="div-crear">
+          <label htmlFor="imageURL">Image URL:</label>
+          <input
+            type="text"
+            id="imageURL"
+            placeholder="Image URL"
+            value={imageURL}
+            onChange={(e) => {
+              setImageURL(e.target.value);
+            }}
+          />
+        </div>
+        <button type="submit" className="botons-registro">
+          Create
+        </button>
       </form>
     </div>
   );

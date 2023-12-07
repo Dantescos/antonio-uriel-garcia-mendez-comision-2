@@ -8,12 +8,12 @@ const {secret} = settingSecretToken();
 
 export const authRequired = (req, res, next) => {
 
-  const {token} = req.cookie;
+  const {token} = req.cookies;
 
   if (!token) return res.status(401).json({ mesage: "no se detecta token" });
 
   jwt.verify(token, secret, (err, user) => {
-    if (err) return res.status(403).json({ message: "invalid token" });
+    if (err) return res.status(403).json({ message: "invalido token" });
 
     req.user = user;
 
