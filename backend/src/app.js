@@ -4,7 +4,6 @@ import CookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.routes.js";
 import helmet from "helmet";
 import cors from "cors";
-import {connectDB} from "../database/db.js"
 import {indexRoutes} from "../src/routes/index.routes.js";
 import PostRouter from "./routes/post.routes.js";
 
