@@ -1,8 +1,8 @@
 import Comment from "../models/comment.model.js";
-import User from "../models/user.model.js";
+import User from "../models/usuarios.modelo.js";
 import Post from "../models/post.model.js";
 
-// Función para verificar la existencia del usuario
+
 const checkUserExistence = async (userId, res) => {
   const existingUser = await User.findById(userId);
   if (!existingUser) {
@@ -47,22 +47,22 @@ export const createComment = async (req, res) => {
       return res.status(404).json({ message: "Usuario no encontrado" });
     }
 
-    // Consultar si existe el post
+    
     const existingPost = await Post.findById(postId);
     if (!existingPost) {
       return res.status(404).json({ message: "Post no encontrado" });
     }
 
-    // Crear el comentario con la referencia al post
+ 
     const newComment = new Comment({ autor, description, post: postId });
     
-    // Guardar el comentario en la base de datos
+    
     const commentSaved = await newComment.save();
 
-    // Añadir el comentario al array de comentarios del post
+   
     existingPost.comments.push(commentSaved._id);
     
-    // Guardar el post actualizado
+
     await existingPost.save();
 
     res.status(201).json(commentSaved);

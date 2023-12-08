@@ -18,10 +18,10 @@ const userSchema = new Schema(
       trim: true,
       required: true,
     },
-    //avatarURL: {
-    //type: String,
-    //required: true,
-    //}
+    avatarURL: {
+    type: String,
+    required: true,
+    }
   },
   {
     timestamps: true,
