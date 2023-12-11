@@ -5,7 +5,7 @@ import authRoutes from "./routes/auth.routes.js";
 import helmet from "helmet";
 import cors from "cors";
 import {indexRoutes} from "../src/routes/index.routes.js";
-import PostRouter from "./routes/post.routes.js";
+import postRouter from "./routes/post.routes.js";
 
  export const app = express();
 
@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(CookieParser());
 app.options('*', cors());
 app.use("/api", authRoutes);
-app.use("/api/posts", PostRouter);
+app.use("/api", postRouter);
 app.use(helmet());
 app.use("/", indexRoutes);
 

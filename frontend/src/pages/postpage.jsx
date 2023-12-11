@@ -8,26 +8,21 @@ import '../hojas-de-estilo/postpage.css';
 
 function PostPage() {
   const [posts, setPosts] = useState([]);
-
-  const { isAuthenticated } = useContext(AuthContext);
+  const { validade } = useContext(AuthContext);
 
   const getPost = useCallback(() => {
-    if (isAuthenticated && isAuthenticated.token) {
       axios.get(`${API_URL}/post`, {
-        headers: {
-          Authorization: `Bearer ${isAuthenticated.token}`,
-        },
-      })
-        .then((response) => setPosts(response.data))
-        .catch((error) => console.error(error));
-    } else {
-      console.error("Usuario no autenticado");
-    }
-  }, [isAuthenticated]);
+         headers: {
+           Authorization: validade.token,
+         },
+       })
+       .then((res) => setPosts(res.data))
+       .catch((err) => console.log(err));
+   }, [validade.token]);
 
   useEffect(() => {
     getPost();
-  }, [isAuthenticated, getPost]);
+  }, [validade, getPost]);
 
   return (
     <div className="container">

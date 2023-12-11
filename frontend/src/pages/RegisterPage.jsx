@@ -4,7 +4,6 @@ import { useAuth } from "../context/AuthContex";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { registerRequest } from "../api/auth";
 import Navbar from "../components/Navbar";
 
 export const RegisterPage = () => {
