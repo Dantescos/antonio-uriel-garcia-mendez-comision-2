@@ -1,5 +1,10 @@
+
 import axios from "./setCredentialsAxios";
 
-export const registerRequest = (user) => axios.post(`/register`, user);
-export const loginRequest = (user) => axios.post(`/login`, user);
-export const verifyToken = () => axios.get(`/verify`);
+export const registerReq = (user) => axios.post(`/register`, user);
+
+
+export const loginReq = (user) => axios.post(`/login`, user);
+
+
+export const verifyToken = () => axios.get(`/verifyToken`);
