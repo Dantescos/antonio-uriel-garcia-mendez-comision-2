@@ -1,6 +1,10 @@
 import { Card } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom'
+import { Button } from 'react-bootstrap'
 
 const PostLoged = ({ post }) => {
+  const navigate = useNavigate()
+
   const createdAtDate = new Date(post.createdAt);
   const day = createdAtDate.getDate();
   const month = createdAtDate.getMonth() + 1;
@@ -19,9 +23,10 @@ const PostLoged = ({ post }) => {
            Posteado: {formattedDatePost} 
            - Última actualización: {formattedDateUpdate}
         </Card.Text>
-        <a href="#" className="btn btn-primary">
+        <Button variant="primary" 
+        onClick={() => navigate(`/profile/post/${post._id}`)} >
           Detalles del post
-        </a>
+          </Button>
       </div>
     </div>
   );

@@ -59,7 +59,7 @@ const [showModal, setShowModal] = useState(false)
     <Navbar/>
     <h1 className="text-center pt-3">Posteos</h1>
 
-    <Button variant="warning" onClick={handleShowModal} >Crear Nuevo Post</Button>
+    <Button variant="btn btn-primary" onClick={handleShowModal} >Crear Nuevo Post</Button>
 
     <ModalNewPost showModal={showModal} handleClose={handleCloseModal} addPost={addPost} />
     <div className="container">
