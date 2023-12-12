@@ -1,17 +1,15 @@
 import User from "../models/usuarios.modelo.js";
 import bcrypt from "bcrypt";
 import { createAccessToken } from '../libs/jwt.js';
+import { settingSecretToken } from "../config/config.js";
 
+const { secret } = settingSecretToken();
 
 export const register = async (req, res) => {
   const { email, password, username, avatarURL } = req.body
   try {
-
     const userFound = await User.findOne({email})
     if (userFound) return res.status(400).json(["El email ya existe"])
-
- 
-
     const passwordHash = await bcrypt.hash(password, 10) 
     const newUser = new User({
       username,
@@ -26,9 +24,6 @@ export const register = async (req, res) => {
       id: userSaved._id,
       username: userSaved.username,
       email: userSaved.email,
-      avatarURL: userSaved.avatarURL,
-      createdAt: userSaved.createdAt,
-      updateAt: userSaved.updatedAt,
     });
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -82,3 +77,22 @@ export const profile = async (req, res) => {
   }
 };
 
+
+export const verifyToken = async (req, res) => {
+  const { token } = req.cookies;
+
+  if (!token) return res.status(401).json({ message: "No autorizado" });
+
+  jwt.verify(token, secret, async (err, user) => {
+    if (err) return res.status(401).json({ message: "No autorizado" });
+
+    const userFound = await User.findById(user.id);
+    if (!userFound) return res.status(401).json({ message: "No autorizado" });
+
+    return res.json({
+      id: userFound._id,
+      username: userFound.username,
+      email: userFound.email,
+    });
+  });
+};

@@ -1,108 +1,102 @@
-import Comment from "../models/comment.model.js";
-import User from "../models/usuarios.modelo.js";
-import Post from "../models/post.model.js";
+import Comment from "../models/comment.model.js"
 
 
-const checkUserExistence = async (userId, res) => {
-  const existingUser = await User.findById(userId);
-  if (!existingUser) {
-    res.status(404).json({ error: "Usuario no encontrado" });
-    return false;
-  }
-  return true;
-};
-
-export const getComments = async (req, res) => {
-  try {
-    const comments = await Comment.find();
-    res.status(200).json(comments);
-  } catch (error) {
-    res.status(500).json({ error: "Error al obtener los comentarios" });
-  }
-};
-
-export const getComment = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const comment = await Comment.findById(id);
-    if (!comment) {
-      return res.status(404).json({ error: "Comentario no encontrado" });
+export const AllComments = async (req, res) => {
+    try {
+        const allComments = await Comment.find() 
+        if (!allComments) return res.status(404).json({message: "No se encontraron comentarios"})
+        res.status(200).json(allComments)
+    } catch (error) {
+        res.status(400).json({message: "Error al obtener todos los comentarios"})
     }
+} 
 
-    res.status(200).json(comment);
-  } catch (error) {
-    res.status(500).json({ error: "Error al obtener el comentario" });
-  }
-};
+export const CommentById = async (req, res) => {
+    const {id} = req.params
 
-export const createComment = async (req, res) => {
-  try {
-    const { autor, description } = req.body;
-    const postId = req.params.postId;
+    try {
+       const commentFound = await Comment.findById(id)
 
-    // Consultar si el autor existe
-    const existingUser = await User.findById(autor);
-    if (!existingUser) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
+        if (!commentFound) return res.status(404).json({message: "Comentario no encontrado"})
+
+        res.status(200).json(commentFound)
+    } catch (error) {
+        res.status(400).json({message: "Error al obtener el comentario por id"})
     }
+}
 
-    
-    const existingPost = await Post.findById(postId);
-    if (!existingPost) {
-      return res.status(404).json({ message: "Post no encontrado" });
+export const createComment = async(req, res) => {
+    const {description, postId} = req.body
+    console.log("desc:", description)
+    try {
+        const newComment = new Comment({
+            description,
+            autor: req.user.id, 
+            from: postId,
+        })
+
+        const commentSaved = await newComment.save()
+        res.status(200).json(commentSaved)
+
+    } catch (error) {
+        res.status(400).json({message: "Error al crear comentario"})
     }
-
- 
-    const newComment = new Comment({ autor, description, post: postId });
-    
-    
-    const commentSaved = await newComment.save();
-
-   
-    existingPost.comments.push(commentSaved._id);
-    
-
-    await existingPost.save();
-
-    res.status(201).json(commentSaved);
-  } catch (error) {
-    console.error("Error al crear un nuevo comentario:", error);
-    res.status(400).json({ message: "Error al crear un nuevo comentario", details: error.message });
-  }
-};
-
-export const deleteComment = async (req, res) => {
-  const { id } = req.params;
-
-  try {
-    const deletedComment = await Comment.findByIdAndDelete(id);
-    if (!deletedComment) {
-      return res.status(404).json({ error: "Comentario no encontrado" });
-    }
-    res.status(204).end();
-  } catch (error) {
-    res.status(500).json({ error: "Error al eliminar el comentario" });
-  }
-};
+}
 
 export const updateComment = async (req, res) => {
-  const { id } = req.params;
-  const { description } = req.body;
+    try {
+        
+        const comment = await Comment.findById(req.params.id);
 
-  try {
-    const updatedComment = await Comment.findByIdAndUpdate(
-      id,
-      { description },
-      { new: true }
-    );
+        if (!comment) {
+            return res.status(404).json({ message: 'Comentario no encontrado' });
+        }
 
-    if (!updatedComment) {
-      return res.status(404).json({ error: "Comentario no encontrado" });
+       
+        if (comment.autor.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'No tienes permisos para editar este comentario' });
+        }
+
+    
+        const commentUpdate = await Comment.findByIdAndUpdate(req.params.id, req.body, { new: true });
+
+        if (!commentUpdate) {
+            return res.status(404).json({ message: 'Comentario no encontrado' });
+        }
+
+        res.status(200).json(commentUpdate);
+    } catch (error) {
+        res.status(400).json({ message: 'Error al editar comentario' });
     }
-
-    res.status(200).json(updatedComment);
-  } catch (error) {
-    res.status(500).json({ error: "Error al actualizar el comentario" });
-  }
 };
+
+export const deleteComment = async(req, res) => {
+    try {
+        
+        const comment = await Comment.findById(req.params.id);
+
+        if (!comment) {
+            return res.status(404).json({ message: 'Comentario no encontrado' });
+        }
+
+     
+        if (comment.autor.toString() !== req.user.id) {
+            return res.status(403).json({ message: 'No tienes permisos para eliminar este comentario' });
+        }
+
+    
+        const commentDelete = await Comment.findByIdAndDelete(req.params.id);
+
+        if (!commentDelete) {
+            return res.status(404).json({ message: 'Comentario no encontrado' });
+        }
+
+        res.status(200).json(commentDelete);
+    } catch (error) {
+        res.status(400).json({ message: 'Error al eliminar comentario' });
+    }
+}
+
+
+
+

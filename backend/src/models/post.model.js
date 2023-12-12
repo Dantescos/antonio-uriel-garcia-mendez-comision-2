@@ -15,12 +15,12 @@ const postSchema = new Schema(
     },
     autor: {
       type: Schema.Types.ObjectId,
-      ref: "user",
-      required: true,
+      ref: "User",
+      require: true
     },
     comments: {
-      type: String,
-      required: false,
+      type: Schema.Types.ObjectId,
+      ref: "Comment"
     },
     imageURL: {
       type: String,

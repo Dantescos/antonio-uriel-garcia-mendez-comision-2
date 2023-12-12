@@ -1,13 +1,23 @@
+// Endpoint from server
 import { Router } from "express";
-import {register, login, logout, profile} from "../controllers/auth.controller.js";
-import { authRequired } from "../middlewares/auth.js";
-import { validateSchema } from "../middlewares/validator.middlewares.js";
-import { loginSchema, registerSchema } from "../schemas/auth.schema.js";
+import {register, login, logout, profile, verifyToken} from "../controllers/auth.controller.js"
+import { authenticated } from "../middlewares/validateToken.js";
+import {validateLogin, validateRegister, handleErrorValidation} from "../middlewares/validateAtribute.js"
 
-const router = Router();
+const router = Router()
 
-router.post('/register', validateSchema(registerSchema), register);
-router.post('/login', validateSchema(loginSchema), login);
-router.post('/logout', logout);
-router.get('/profile', authRequired, profile);
+
+router.post("/register", validateRegister, handleErrorValidation,register)
+
+
+router.post("/login", validateLogin, handleErrorValidation, login)
+
+
+router.post("/logout", logout)
+
+
+router.get("/verifyToken", verifyToken)
+
+router.get("/profile", authenticated, profile)
+
 export default router

@@ -1,83 +1,66 @@
- import Post from "../models/post.model.js";
+import { json } from "express"
+import Post from "../models/post.model.js"
 
+export const getPosts = async(req, res) => {
+    try {
+        const allpost = await Post.find() 
+        res.status(200).json(allpost)
+    } catch (error) {
+        res.status(400).json({message: "Error al obtener todos los posteos"})
+    }
+} 
 
-export const getPosts = async (req, res) => {
+export const ctrlGetPost = async(req, res) => {
+    const {id} = req.params
 
     try {
-    const posts = await Post.find();
-    res.status(200).json(posts);
-  } catch (error) {
-    res.status(500).json({ error: "Error al obtener los posts" });
-  } 
-};
+       const postFound = await Post.findById(id)
 
-export const ctrlCreatePost = async (req, res) => {
-  const { title, description, comments, imageURL } = req.body;
+        if (!postFound) return res.status(404).json({message: "Posteo no encontrado"})
 
-  try {
-    const newPost = new Post({
-      title,
-      description,
-      comments,
-      autor: req.user.id,
-      imageURL
-    });
-
-    const savedPost = await newPost.save();
-    res.status(200).json(savedPost);
-  } catch (error) {
-    console.error(error);
-    res.status(400).json({ error: "Error al crear el post" });
-  }
-};
-
-
-export const ctrlGetPost = async (req, res) => {
-  const postId = req.params.id;
-
-  try {
-    const post = await Post.findById(postId);
-    if (!post) {
-      return res.status(404).json({ error: "Post no encontrado" });
+        res.status(200).json(postFound)
+    } catch (error) {
+        res.status(400).json({message: "Error al obtener el posteo por id"})
     }
-    res.status(200).json(post);
-  } catch (error) {
-    res.status(500).json({ error: "Error al obtener el post" });
-  }
-};
+}
 
-export const ctrlUpdatePosts = async (req, res) => {
-  const postId = req.params.id;
-  const { title, comments, imageURL } = req.body;
+export const ctrlCreatePost = async(req, res) => {
+    const {title, description, imgURL} = req.body
+    try {
+        const newPost = new Post({
+            title,
+            description,
+            imgURL,
+            autor: req.user.id 
+        })
 
-  try {
-    const updatedPost = await Post.findByIdAndUpdate(
-      postId,
-      { title, comments, imageURL },
-      { new: true }
-    );
+        const postSaved = await newPost.save()
+        res.status(200).json(postSaved)
 
-    if (!updatedPost) {
-      return res.status(404).json({ error: "Post no encontrado" });
+    } catch (error) {
+        res.status(400).json({message: "Error al crear posteo"})
     }
+}
 
-    res.status(200).json(updatedPost);
-  } catch (error) {
-    res.status(500).json({ error: "Error al actualizar el post" });
-  }
-};
+export const ctrlUpdatePosts = async(req, res) => {
+    try {
+        const postUpdate = await Post.findByIdAndUpdate(req.params.id, req.body, {new: true})
 
+        if(!postUpdate) return res.status(404).json({message: "Posteo no encontrado"})
 
-export const ctrlDeletePost = async (req, res) => {
-  const postId = req.params.id;
-
-  try {
-    const deletedPost = await Post.findByIdAndDelete(postId);
-    if (!deletedPost) {
-      return res.status(404).json({ error: "Post no encontrado" });
+        res.status(200).json(postUpdate)
+    } catch (error) {
+                res.status(400).json({message: "Error al editar posteo"})
     }
-    res.status(204).end();
-  } catch (error) {
-    res.status(500).json({ error: "Error al eliminar el post" });
-  }
-};
+}
+
+export const ctrlDeletePost = async(req, res) => {
+    try {
+        const deletePost = await Post.findByIdAndDelete(req.params.id)
+
+        if (!deletePost) return res.status(404).json({message: "Posteo no encontrado"})
+        res.status(200).json({message: "Posteo eliminado con éxito"})
+    } catch (error) {
+        res.status(400).json({message: "Error al eliminar posteo", error})
+    }
+}
