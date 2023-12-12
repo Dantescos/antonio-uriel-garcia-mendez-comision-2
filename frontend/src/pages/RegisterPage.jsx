@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContex";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import Navbar from "../components/Navbar.logeado";
+import Navbarnolog from "../components/Navbar.sin.logear";
 
 export const RegisterPage = () => {
  const { register, handleSubmit, formState: { errors } } = useForm();
@@ -21,10 +21,13 @@ export const RegisterPage = () => {
 
  return (
     <div>
-      <Navbar />
-      <div className="login-contenedor">
-      {registerErrors && registerErrors.map((error, i) => (
-    <Message message={error} key={i} />
+      <Navbarnolog />
+    <div className="login-contenedor">
+      <h1 className="Texto-logeo">Login</h1>
+      {Array.isArray(registerErrors) && registerErrors.map((error, i) => (
+    <div className="error-login" key={i}>
+      {error}
+          </div>
 ))}
         <form onSubmit={onSubmit}>
           <input

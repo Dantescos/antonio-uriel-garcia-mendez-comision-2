@@ -1,5 +1,5 @@
 import Card from 'react-bootstrap/Card'
-i
+
 
 const PostLoged = ({post}) => {
 
