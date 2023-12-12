@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { authRequired } from "../middlewares/auth.js";
+import { authRequired } from "../middlewares/validateToken.js";
 import {getPosts,ctrlGetPost,ctrlCreatePost,ctrlUpdatePosts,ctrlDeletePost,} from "../controllers/post.controller.js";
 
 

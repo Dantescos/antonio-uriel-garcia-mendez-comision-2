@@ -3,9 +3,7 @@ import "../hojas-de-estilo/RegisterPage.css";
 import { useAuth } from "../context/AuthContex";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import Navbar from "../components/Navbar";
-import { loginRequest } from "../api/auth";
-
+import Navbarnolog from "../components/Navbar.sin.logear";
 
 
 export const LoginPage =  () =>  { 
@@ -19,7 +17,7 @@ const { signin, errors: loginErrors ,isAuthenticated} = useAuth();
 
 const navigate = useNavigate();
  useEffect(() => {
-    if (isAuthenticated) navigate("/home");
+    if (isAuthenticated) navigate("/profile");
  }, [isAuthenticated]);
 
 const onSubmit = handleSubmit((data) => {
@@ -27,12 +25,12 @@ const onSubmit = handleSubmit((data) => {
 });
   return ( 
     <>
-    <Navbar /> {}
+    <Navbarnolog /> {}
     <div className="login-contenedor">
       <h1 className="Texto-logeo">Login</h1>
-        {loginErrors.map((error, i) => (
-          <div className="error-login" key={i}>
-          {error}
+      {Array.isArray(loginErrors) && loginErrors.map((error, i) => (
+    <div className="error-login" key={i}>
+      {error}
           </div>
         ))}
         

@@ -1,7 +1,8 @@
 import User from "../models/usuarios.modelo.js";
 import bcrypt from "bcrypt";
-import { createAccessToken } from '../libs/jwt.js';
+import { createAccessToken } from '../middlewares/auth.js';
 import { settingSecretToken } from "../config/config.js";
+import jwt from "jsonwebtoken"
 
 const { secret } = settingSecretToken();
 

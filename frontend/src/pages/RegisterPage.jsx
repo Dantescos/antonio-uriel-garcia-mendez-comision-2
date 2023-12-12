@@ -4,7 +4,7 @@ import { useAuth } from "../context/AuthContex";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar.logeado";
 
 export const RegisterPage = () => {
  const { register, handleSubmit, formState: { errors } } = useForm();
@@ -45,6 +45,18 @@ export const RegisterPage = () => {
           {errors.email && (
             <p className="error-email">El Email es requerido</p>
           )}
+
+
+          <input
+            type="text"
+            {...register("Imagen de avatar", { required: true })}
+            placeholder="Imagen de avatar"
+            className="registro-casilla"
+            />
+            {errors.avatarURL && (
+              <p className="error-email">El avatar es requerido</p>
+            )}
+       
 
           <input
             type="password"

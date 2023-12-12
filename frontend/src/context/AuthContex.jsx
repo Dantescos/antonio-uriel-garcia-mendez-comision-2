@@ -15,16 +15,12 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [errors, setErrors] = useState([]);
-  const[loading , setLoading] = useState(true)
-  const [validade , setvalidate] = useState(undefined);
 
  const signup = async (user) => {
     try {
       const res = await registerRequest(user);
-      if (res.status === 200) {
         setUser(res.data);
         setIsAuthenticated(true);
-      }
     } catch (error) {
       console.log(error.response.data);
       setErrors(error.response.data.message);
@@ -32,15 +28,14 @@ export const AuthProvider = ({ children }) => {
   };
 
   
-  const signin = async (user,token) => {
+  const signin = async (user) => {
     try {
       const res = await loginRequest(user);
-      if (res.status === 200) {
         setUser(res.data);
         setIsAuthenticated(true);
-        setvalidate({ user, token });
-      }
     } catch (error) {
+      console.error("Error en la solicitud de inicio de sesión:", error.response?.data);
+      console.error(error);
       setErrors(error.response.data)
     }
   };
@@ -54,7 +49,7 @@ export const AuthProvider = ({ children }) => {
 
 
   useEffect(() => {
-    if (errors && errors.length > 0) {
+    if ( errors.length > 0) {
        const timer = setTimeout(() => {
          setErrors([]);
        }, 5000);
@@ -65,28 +60,28 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     async function verifyLogin() {
       const cookies = Cookies.get();
-      if (!cookies.token) {
-        setIsAuthenticated(false);
-        setLoading(false)
-        return setUser(null);
-         }
+      if (cookies.token) {
         try {
           const res = await verifyToken(cookies.token);
-          if (!res.data) return setIsAuthenticated(false);
+          console.log(res);
+          if (res.data)  { 
           setIsAuthenticated(true);
           setUser(res.data);
-          setLoading(false);
-        } catch (error) {
+        } else {
           setIsAuthenticated(false);
-          setLoading(false)
         }
+      } catch (error) {
+        setIsAuthenticated(false);
+        setUser(null);
       }
-    verifyLogin();
-  }, []);
+    }
+  }
+  verifyLogin();
+}, []);
 
   return (
     <AuthContext.Provider
-      value={{ signup, signin, logout, loading, user,validade , isAuthenticated, errors }}
+      value={{ signup, signin, logout, user , isAuthenticated, errors }}
     >
       {children}
     </AuthContext.Provider>

@@ -3,7 +3,7 @@ import axios from "axios";
 import { API_URL } from "../utils/consts";
 import { AuthContext } from "../context/AuthContex";
 import { useNavigate } from "react-router-dom";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/Navbar.logeado";
 import "../hojas-de-estilo/newpost.css";
 
 const NewPost = () => {

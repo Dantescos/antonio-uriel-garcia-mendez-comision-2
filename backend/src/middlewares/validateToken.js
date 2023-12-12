@@ -3,7 +3,7 @@ import {settingSecretToken} from "../config/config.js"
 
 const {secret} = settingSecretToken()
 
-export const authenticated = (req, res, next) => {
+export const authRequired = (req, res, next) => {  
 
     const {token} = req.cookies
     if (!token) return res.status(401).json({message: "Acceso no autorizado, no posee token"})

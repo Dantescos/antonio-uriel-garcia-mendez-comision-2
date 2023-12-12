@@ -1,7 +1,7 @@
 // Endpoint from server
 import { Router } from "express";
 import {register, login, logout, profile, verifyToken} from "../controllers/auth.controller.js"
-import { authenticated } from "../middlewares/validateToken.js";
+import { authRequired } from "../middlewares/validateToken.js";
 import {validateLogin, validateRegister, handleErrorValidation} from "../middlewares/validateAtribute.js"
 
 const router = Router()
@@ -18,6 +18,6 @@ router.post("/logout", logout)
 
 router.get("/verifyToken", verifyToken)
 
-router.get("/profile", authenticated, profile)
+router.get("/profile", authRequired, profile)
 
 export default router
