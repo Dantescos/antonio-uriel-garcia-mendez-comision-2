@@ -25,12 +25,12 @@ export const ctrlGetPost = async(req, res) => {
 }
 
 export const ctrlCreatePost = async(req, res) => {
-    const {title, description, imgURL} = req.body
+    const {title, description, imageURL} = req.body
     try {
         const newPost = new Post({
             title,
             description,
-            imgURL,
+            imageURL,
             autor: req.user.id 
         })
 

@@ -50,7 +50,6 @@ export const PostProvider = ({children}) => {
         }
     };
 
-    // Update post
     const updatePost = async (id, post) => {
         try {
         const res = await updatePostReq(id, post)

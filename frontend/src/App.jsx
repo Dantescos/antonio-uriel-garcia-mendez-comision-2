@@ -6,7 +6,7 @@ import HomeNoLogeado  from "./pages/homePage-no-logeado";
 import  Homepagelogeado  from "./pages/homePage-Logeado";
 import ProtectedRoutes from "./routes/ProtectedRoutes";
 import { PostProvider } from "./context/PostProvider"
-import NewPost from "./pages/NewPost";
+
 
 
 
@@ -21,7 +21,7 @@ function App() {
           <Route path="/register" element={<RegisterPage />} />
       <Route element={<ProtectedRoutes/>}>
       <Route path="/profile" element={< Homepagelogeado  />} />
-      <Route path="/newPost" element={< NewPost  />} />
+
       </Route>
         </Routes>
       </BrowserRouter>

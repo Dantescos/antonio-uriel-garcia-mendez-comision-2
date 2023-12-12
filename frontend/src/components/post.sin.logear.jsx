@@ -1,35 +1,27 @@
-import Card from 'react-bootstrap/Card'
+import { Card } from 'react-bootstrap';
 
-const PostsinLogear = ({post}) => {
-
-
-    const createdAtDate = new Date(post.createdAt)
-    const day = createdAtDate.getDate()
-    const month = createdAtDate.getMonth() + 1 
-    const year = createdAtDate.getFullYear()
-    const formattedDatePost = `${day}/${month}/${year}`
-    const formattedDateUpdate = `${day}/${month}/${year}`
+const PostsinLogear = ({ post }) => {
+  const createdAtDate = new Date(post.createdAt);
+  const day = createdAtDate.getDate();
+  const month = createdAtDate.getMonth() + 1;
+  const year = createdAtDate.getFullYear();
+  const formattedDatePost = `${day}/${month}/${year}`;
+  const formattedDateUpdate = `${day}/${month}/${year}`;
 
   return (
-    <>
-     <div className="container">
-        <Card className="bg-primary text-white p-1 my-3" >
-        <Card.Img src={post.imgURL} alt="Imagen" />
-        <Card.ImgOverlay>
-            <Card.Title>{post.title}</Card.Title>
-            <Card.Text className="text-truncate overflow-hidden">
-            {post.description}
-            </Card.Text>
-            <Card.Text className="text-truncate overflow-hidden">
-                @{post.autor} - 
-                Posteado: {formattedDatePost} - 
-                Ultima actualización: {formattedDateUpdate}
-            </Card.Text>
-        </Card.ImgOverlay>
-        </Card>
+    <div className="card" style={{ width: '18rem' }}>
+      <img className="card-img-top" src={post.imageURL} alt="Imagen" />
+      <div className="card-body">
+        <Card.Title>{post.title}</Card.Title>
+        <p className="card-text">{post.description}</p>
+        <Card.Text className="text-truncate overflow-hidden">
+          @{post.autor} -
+           Posteado: {formattedDatePost} 
+           - Última actualización: {formattedDateUpdate}
+        </Card.Text>
       </div>
-    </>
-  )
-}
+    </div>
+  );
+};
 
-export default PostsinLogear
+export default PostsinLogear;
