@@ -12,7 +12,7 @@ export const RegisterPage = () => {
 
  const navigate = useNavigate();
  useEffect(() => {
-    if (isAuthenticated) navigate("/home");
+    if (isAuthenticated) navigate("/profile");
  }, [isAuthenticated]);
 
  const onSubmit = handleSubmit(async (values) => {
