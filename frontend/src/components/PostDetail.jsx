@@ -6,8 +6,8 @@ import { useComment, createCommentReq } from '../context/CommentProvider';
 import { deletePostReq, updatePostReq } from '../api/postAxios';
 import NuevoComentario from './NewComments';
 import Swal from 'sweetalert2';
-import Comments from "../components/comentarios"
-
+import Comments from '../components/comentarios';
+import  EditPostModal  from './editar.post'; 
 
 const PostDetail = ({ post }) => {
   const { getAllComments, comment } = useComment();
@@ -61,8 +61,16 @@ const PostDetail = ({ post }) => {
     }
   };
 
-  const handleEditPost = async () => {
-    setShowEditModal(true);
+  const handleEditPost = async (editedPostData) => {
+    try {
+      const res = await updatePostReq(post._id, editedPostData);
+      if (res.status === 200) {
+        console.log('Post editado exitosamente');
+        setShowEditModal(false);
+      }
+    } catch (error) {
+      console.error('Error al editar el post:', error);
+    }
   };
 
   if (!post) {
@@ -78,35 +86,55 @@ const PostDetail = ({ post }) => {
 
   return (
     <>
-      <div className="container col-6 my-5">
+      <div className='container col-6 my-5'>
         <Card>
-          <Card.Img variant="top" src={post.imageURL} />
+          <Card.Img variant='top' src={post.imageURL} />
           <Card.Body>
             <Card.Title>{post.title}</Card.Title>
             <Card.Text>{post.description}</Card.Text>
             <Card.Text>
-              @{post.autor} - Posteado:{formattedDatePost} - :{formattedDateUpdate}
+              @{post.autor} - Posteado:{formattedDatePost} - :
+              {formattedDateUpdate}
             </Card.Text>
             <Button
-              className="me-2 mb-1"
+              className='me-2 mb-1'
               style={{ backgroundColor: 'green', borderColor: 'green' }}
-              onClick={handleEditPost}
-            >
+              onClick={() => setShowEditModal(true)}>
               Editar
             </Button>
-            <Button className="me-2 mb-1" variant="danger" onClick={handleDeletePost}>
+            <Button
+              className='me-2 mb-1'
+              variant='danger'
+              onClick={handleDeletePost}>
               Eliminar Posteo
             </Button>
-            <Button variant="primary" onClick={handleShowModal}>
+            <Button variant='primary' onClick={handleShowModal}>
               Comentar
             </Button>
           </Card.Body>
-          <NuevoComentario showModal={showModal} handleClose={handleCloseModal} addComment={addComment} />
+          <NuevoComentario
+            showModal={showModal}
+            handleClose={handleCloseModal}
+            addComment={addComment}
+          />
         </Card>
-        <div className="row">
+
+      
+        <EditPostModal
+          showModal={showEditModal}
+          handleClose={() => setShowEditModal(false)}
+          onSubmit={handleEditPost}
+          initialValues={{
+            title: post.title,
+            description: post.description,
+            imageURL: post.imageURL,
+          }}
+        />
+
+        <div className='row'>
           {comment.map((comment, i) => (
-            <div className="col-md-6" key={i}>
-                     <Comments comment={comment} />
+            <div className='col-md-6' key={i}>
+              <Comments comment={comment} />
             </div>
           ))}
         </div>
