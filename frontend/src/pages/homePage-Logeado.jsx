@@ -2,7 +2,7 @@ import Navbar from '../components/Navbar.logeado.jsx';
 import PostLoged from '../components/Post.logeado.jsx'
 import { usePost } from '../context/PostProvider.jsx'
 import { useEffect } from 'react'
-import ModalNewPost from "../components/ModalNewPost.jsx";
+import  PosteoModal from "../components/Nuevo.Posteomodal.jsx";
 import { Button } from "react-bootstrap";
 import { useState } from "react";
 
@@ -61,7 +61,7 @@ const [showModal, setShowModal] = useState(false)
 
     <Button variant="btn btn-primary" onClick={handleShowModal} >Crear Nuevo Post</Button>
 
-    <ModalNewPost showModal={showModal} handleClose={handleCloseModal} addPost={addPost} />
+    <PosteoModal showModal={showModal} handleClose={handleCloseModal} addPost={addPost} />
     <div className="container">
       <div className="row">
         {post.map((post, i) => (
