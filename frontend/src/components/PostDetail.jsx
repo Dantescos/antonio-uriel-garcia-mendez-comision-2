@@ -1,18 +1,19 @@
+import React, { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
-import { createCommentReq, useComment } from '../context/CommentProvider';
-import { deletePostReq } from '../api/postAxios';
 import { Button } from 'react-bootstrap';
-import Comments from './Comments';
-import { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { useComment, createCommentReq } from '../context/CommentProvider';
+import { deletePostReq, updatePostReq } from '../api/postAxios';
 import NuevoComentario from './NewComments';
 import Swal from 'sweetalert2';
+import Comments from "../components/comentarios"
+
 
 const PostDetail = ({ post }) => {
   const { getAllComments, comment } = useComment();
   const { id } = useParams();
   const postId = id;
-  const navigate = useNavigate(); // Cambiado de useHistory
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (post) {
@@ -21,6 +22,7 @@ const PostDetail = ({ post }) => {
   }, [postId, post]);
 
   const [showModal, setShowModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
 
   const addComment = async (newComment, postId) => {
     try {
@@ -52,13 +54,15 @@ const PostDetail = ({ post }) => {
           showConfirmButton: false,
           timer: 1500,
         });
-
-        
         navigate('/');
       }
     } catch (error) {
       console.error('Error al eliminar el post:', error);
     }
+  };
+
+  const handleEditPost = async () => {
+    setShowEditModal(true);
   };
 
   if (!post) {
@@ -81,8 +85,15 @@ const PostDetail = ({ post }) => {
             <Card.Title>{post.title}</Card.Title>
             <Card.Text>{post.description}</Card.Text>
             <Card.Text>
-              @{post.autor} - Posteado: {formattedDatePost} - Última actualización: {formattedDateUpdate}
+              @{post.autor} - Posteado:{formattedDatePost} - :{formattedDateUpdate}
             </Card.Text>
+            <Button
+              className="me-2 mb-1"
+              style={{ backgroundColor: 'green', borderColor: 'green' }}
+              onClick={handleEditPost}
+            >
+              Editar
+            </Button>
             <Button className="me-2 mb-1" variant="danger" onClick={handleDeletePost}>
               Eliminar Posteo
             </Button>
@@ -95,7 +106,7 @@ const PostDetail = ({ post }) => {
         <div className="row">
           {comment.map((comment, i) => (
             <div className="col-md-6" key={i}>
-              <Comments comment={comment} />
+                     <Comments comment={comment} />
             </div>
           ))}
         </div>

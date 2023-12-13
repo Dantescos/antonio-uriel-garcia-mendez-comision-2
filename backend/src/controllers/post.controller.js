@@ -1,4 +1,4 @@
-import { json } from "express"
+
 import Post from "../models/post.model.js"
 
 export const getPosts = async(req, res) => {

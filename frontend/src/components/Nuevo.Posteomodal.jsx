@@ -2,7 +2,7 @@ import { Modal, Button, Form } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { usePost } from '../context/PostProvider';
-import Swal from 'sweetalert2'; // Importa SweetAlert
+import Swal from 'sweetalert2';
 
 const PosteoModal = ({ showModal, handleClose }) => {
   const { createPost } = usePost();
@@ -39,6 +39,8 @@ const PosteoModal = ({ showModal, handleClose }) => {
           left top
           no-repeat
         `,
+      }).then(() => {
+        window.location.reload();
       });
     },
   });
