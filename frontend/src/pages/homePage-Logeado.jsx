@@ -11,6 +11,34 @@ function Homepagelogeado() {
 
 const { getAllPost, post } = usePost();
 const [showModal, setShowModal] = useState(false)
+const handleShowModal = () => {
+  setShowModal(true)
+}
+
+const handleCloseModal = () => {
+  setShowModal(false)
+}
+
+
+const addPost = async (newPost) => {
+  try{
+  const res = await createPost(newUser)
+  console.log('Nuevo posteo: ', res.id);
+  navigate(`/profile/post/${result.id}`)
+
+  toast.success('¡Post publicado!', {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 2000,
+  })
+  } catch (error) {
+  toast.error('Error al publicar el post', {
+      position: toast.POSITION.TOP_RIGHT,
+      autoClose: 2000,        
+  })
+  console.error('Error al crear el usuario', error);
+  
+  }         
+}
 
   useEffect( () => {
     getAllPost()
@@ -19,40 +47,20 @@ const [showModal, setShowModal] = useState(false)
     return (
       <>
         <Navbar/>        
+        <Button variant="btn btn-primary" onClick={handleShowModal} >Crear Nuevo Post</Button>
+        <PosteoModal showModal={showModal} handleClose={handleCloseModal} addPost={addPost} />
+        <h1 className="text-center pt-3">Posteos</h1>
         <h1 className='d-flex col align-items-center justify-content-center'
         style={{height: "100vh"}}>
+          
         No se hallan posteos
         </h1>
       </>
     );
 
-    const handleShowModal = () => {
-      setShowModal(true)
-  }
+    
 
-  const handleCloseModal = () => {
-      setShowModal(false)
-  }
-
-  const addPost = async (newPost) => {
-      try{
-      const res = await createPost(newUser)
-      console.log('Nuevo posteo: ', res.id);
-      navigate(`/profile/post/${result.id}`)
-
-      toast.success('¡Post publicado!', {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 2000,
-      })
-      } catch (error) {
-      toast.error('Error al publicar el post', {
-          position: toast.POSITION.TOP_RIGHT,
-          autoClose: 2000,        
-      })
-      console.error('Error al crear el usuario', error);
-      
-      }         
-  }
+  
 
   return (
     <>

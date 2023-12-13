@@ -31,7 +31,9 @@ export const ctrlCreatePost = async(req, res) => {
             title,
             description,
             imageURL,
-            autor: req.user.id 
+            autor: req.user.id,
+            authorName:req.user.username,
+    
         })
 
         const postSaved = await newPost.save()

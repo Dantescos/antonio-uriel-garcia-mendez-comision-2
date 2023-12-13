@@ -54,7 +54,7 @@ const PostDetail = ({ post }) => {
           showConfirmButton: false,
           timer: 1500,
         });
-        navigate('/');
+        navigate('/profile');
       }
     } catch (error) {
       console.error('Error al eliminar el post:', error);

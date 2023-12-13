@@ -20,7 +20,7 @@ const PostLoged = ({ post }) => {
           <p className="card-text">{post.description}</p>
           <img className="card-img-top" src={post.imageURL} alt="Imagen" />
           <Card.Text className="text-truncate overflow-hidden">
-            @{post.autor} -
+            @{post.authorName} -
             Posteado: {formattedDatePost} 
             Última actualización: {formattedDateUpdate}
           </Card.Text>
