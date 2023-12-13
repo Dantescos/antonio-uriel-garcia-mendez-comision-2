@@ -47,7 +47,7 @@ const addPost = async (newPost) => {
     return (
       <>
         <Navbar/>        
-        <Button variant="btn btn-primary" onClick={handleShowModal} >Crear Nuevo Post</Button>
+        <Button variant="btn btn-primary" size="lg" onClick={handleShowModal}>Crear Nuevo Post</Button>
         <PosteoModal showModal={showModal} handleClose={handleCloseModal} addPost={addPost} />
         <h1 className="text-center pt-3">Posteos</h1>
         <h1 className='d-flex col align-items-center justify-content-center'

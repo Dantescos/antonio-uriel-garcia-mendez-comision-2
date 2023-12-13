@@ -14,15 +14,15 @@ const PostLoged = ({ post }) => {
 
   return (
     <div className="mb-4">
-      <div className="card" style={{ width: '20rem', margin: '0 101px' }}>
+      <div className="card bg-dark text-light" style={{ width: '20rem', margin: '0 101px' }}>
         <div className="card-body">
           <Card.Title>{post.title}</Card.Title>
           <p className="card-text">{post.description}</p>
           <img className="card-img-top" src={post.imageURL} alt="Imagen" />
           <Card.Text className="text-truncate overflow-hidden">
-            @{post.authorName} -
-            Posteado: {formattedDatePost} 
-            Última actualización: {formattedDateUpdate}
+           <p> By: @{post.autor}</p> 
+           <p> Posteado: {formattedDatePost} </p>
+           <p> Actualizado: {formattedDateUpdate}</p>
           </Card.Text>
           <Button variant="primary" onClick={() => navigate(`/profile/post/${post._id}`)}>
             Detalles del post

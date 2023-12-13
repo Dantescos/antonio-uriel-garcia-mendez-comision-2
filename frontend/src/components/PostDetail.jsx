@@ -87,37 +87,38 @@ const PostDetail = ({ post }) => {
   return (
     <>
       <div className='container col-6 my-5'>
-        <Card>
-          <Card.Img variant='top' src={post.imageURL} />
-          <Card.Body>
-            <Card.Title>{post.title}</Card.Title>
-            <Card.Text>{post.description}</Card.Text>
-            <Card.Text>
-              @{post.autor} - Posteado:{formattedDatePost} - :
-              {formattedDateUpdate}
-            </Card.Text>
-            <Button
-              className='me-2 mb-1'
-              style={{ backgroundColor: 'green', borderColor: 'green' }}
-              onClick={() => setShowEditModal(true)}>
-              Editar
-            </Button>
-            <Button
-              className='me-2 mb-1'
-              variant='danger'
-              onClick={handleDeletePost}>
-              Eliminar Posteo
-            </Button>
-            <Button variant='primary' onClick={handleShowModal}>
-              Comentar
-            </Button>
-          </Card.Body>
-          <NuevoComentario
-            showModal={showModal}
-            handleClose={handleCloseModal}
-            addComment={addComment}
-          />
-        </Card>
+      <Card style={{ backgroundColor: '#343a40', color: '#fff' }}>
+  <Card.Img variant='top' src={post.imageURL} />
+  <Card.Body>
+    <Card.Title>{post.title}</Card.Title>
+    <Card.Text>{post.description}</Card.Text>
+    <Card.Text>
+      <p>By: @{post.autor}</p>
+      <p> Posteado: {formattedDatePost} </p>
+      <p> Actualizado: {formattedDateUpdate}</p>
+    </Card.Text>
+    <Button
+      className='me-2 mb-1'
+      style={{ backgroundColor: 'green', borderColor: 'green' }}
+      onClick={() => setShowEditModal(true)}>
+      Editar
+    </Button>
+    <Button
+      className='me-2 mb-1'
+      variant='danger'
+      onClick={handleDeletePost}>
+      Eliminar Posteo
+    </Button>
+    <Button variant='primary' onClick={handleShowModal}>
+      Comentar
+    </Button>
+  </Card.Body>
+  <NuevoComentario
+    showModal={showModal}
+    handleClose={handleCloseModal}
+    addComment={addComment}
+  />
+</Card>
 
       
         <EditPostModal
