@@ -20,9 +20,9 @@ const PostLoged = ({ post }) => {
           <p className="card-text">{post.description}</p>
           <img className="card-img-top" src={post.imageURL} alt="Imagen" />
           <Card.Text className="text-truncate overflow-hidden">
-           <p> By: @{post.autor}</p> 
-           <p> Posteado: {formattedDatePost} </p>
-           <p> Actualizado: {formattedDateUpdate}</p>
+           By: @{post.autor} <br />
+            Posteado: {formattedDatePost} <br />
+            Actualizado: {formattedDateUpdate}
           </Card.Text>
           <Button variant="primary" onClick={() => navigate(`/profile/post/${post._id}`)}>
             Detalles del post

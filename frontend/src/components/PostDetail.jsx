@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import { Button } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useComment, createCommentReq } from '../context/CommentProvider';
+import { useComment  } from '../context/CommentProvider';
 import { deletePostReq, updatePostReq } from '../api/postAxios';
 import NuevoComentario from './NewComments';
 import Swal from 'sweetalert2';
@@ -26,7 +26,7 @@ const PostDetail = ({ post }) => {
 
   const addComment = async (newComment, postId) => {
     try {
-      const res = await createCommentReq(newComment, postId);
+      const res = await createComment(newComment, postId);
       console.log('res: ', postId);
       return res;
     } catch (error) {
@@ -93,9 +93,9 @@ const PostDetail = ({ post }) => {
     <Card.Title>{post.title}</Card.Title>
     <Card.Text>{post.description}</Card.Text>
     <Card.Text>
-      <p>By: @{post.autor}</p>
-      <p> Posteado: {formattedDatePost} </p>
-      <p> Actualizado: {formattedDateUpdate}</p>
+             By: @{post.autor} <br />
+            Posteado: {formattedDatePost} <br />
+            Actualizado: {formattedDateUpdate}
     </Card.Text>
     <Button
       className='me-2 mb-1'
