@@ -8,4 +8,4 @@ export const createCommentReq = (comment, postId) => axios.post(`/post/${postId}
 
 export const updateCommentReq = (postId, commentId, comment) => axios.put(`/post/${postId}/comment/${commentId}`, comment)
 
-export const deleteCommentReq = (postId, commentId) => axios.get(`/post/${postId}/comment/${commentId}`)
+export const deleteCommentReq = (postId, commentId) => axios.delete(`/post/${postId}/comment/${commentId}`)

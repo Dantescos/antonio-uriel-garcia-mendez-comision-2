@@ -8,4 +8,4 @@ export const createPostReq = (post) => axios.post("/post", post)
 
 export const updatePostReq = (id, post) => axios.put(`/post/${id}`, post)
 
-export const deletePostReq = (id) => axios.get(`/post/${id}`)
+export const deletePostReq = (id) => axios.delete(`/post/${id}`)

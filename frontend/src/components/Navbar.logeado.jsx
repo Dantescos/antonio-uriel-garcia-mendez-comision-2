@@ -14,8 +14,7 @@ function Navbar() {
   return (
     <nav className="navbar">
       <ul className="nav-links">
-        <li><a className="Letra-items" href="/home">Inicio</a></li>
-        <li><a href="/newPost">Crear Posts</a></li>
+        <li><a className="Letra-items" href="/profile">Inicio</a></li>
         <li><Button  onClick={() => logout()} >Salir</Button></li>
        
 
