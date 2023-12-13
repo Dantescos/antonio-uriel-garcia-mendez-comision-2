@@ -48,7 +48,7 @@ const PostDetail = ({ post }) => {
       if (res.status === 200) {
         console.log('Post eliminado exitosamente');
         Swal.fire({
-          position: 'top-end',
+          position: 'center',
           icon: 'success',
           title: 'El post ha sido eliminado exitosamente',
           showConfirmButton: false,
