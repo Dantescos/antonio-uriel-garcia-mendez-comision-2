@@ -18,17 +18,21 @@ export const CommentProvider = ({children}) => {
     const [comment, setComment] = useState([])
 
  
-    const createComment = async (comment, postId) => {
-        console.log("idpost:", postId)
-        console.log("newcomment: ",comment)
-        try {
-            const res = await createCommentReq(comment, postId)
-            return res
-        } catch (error) {
-            console.error('Error al crear el comentario:', error);
-            throw error;
+  
+const createComment = async (comment, postId) => {
+    console.log("idpost:", postId)
+    console.log("newcomment: ", comment)
+    try {
+        if (!postId) {
+            throw new Error('postId no puede ser undefined');
         }
+        const res = await createCommentReq(comment, postId)
+        return res
+    } catch (error) {
+        console.error('Error al crear el comentario:', error);
+        throw error;
     }
+}
 
     const getAllComments = async (postId) => {
        

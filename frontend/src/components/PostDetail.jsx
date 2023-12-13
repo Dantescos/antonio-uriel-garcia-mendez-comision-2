@@ -119,8 +119,6 @@ const PostDetail = ({ post }) => {
     addComment={addComment}
   />
 </Card>
-
-      
         <EditPostModal
           showModal={showEditModal}
           handleClose={() => setShowEditModal(false)}
@@ -131,7 +129,6 @@ const PostDetail = ({ post }) => {
             imageURL: post.imageURL,
           }}
         />
-
         <div className='row'>
           {comment.map((comment, i) => (
             <div className='col-md-6' key={i}>
