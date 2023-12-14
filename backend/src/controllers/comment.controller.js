@@ -10,7 +10,6 @@ export const AllComments = async (req, res) => {
         res.status(400).json({message: "Error al obtener todos los comentarios"})
     }
 } 
-
 export const CommentById = async (req, res) => {
     const {id} = req.params
 
@@ -26,13 +25,13 @@ export const CommentById = async (req, res) => {
 }
 
 export const createComment = async(req, res) => {
-    const {description, postId} = req.body
-    console.log("desc:", description)
+    const {description} = req.body
+    const {id} = req.params
     try {
         const newComment = new Comment({
-            description,
-            autor: req.user.id, 
-            from: postId,
+            description: description.description,
+            author : req.user.id, 
+            from: id,
         })
 
         const commentSaved = await newComment.save()
@@ -53,7 +52,7 @@ export const updateComment = async (req, res) => {
         }
 
        
-        if (comment.autor.toString() !== req.user.id) {
+        if (comment.author.toString() !== req.user.id) {
             return res.status(403).json({ message: 'No tienes permisos para editar este comentario' });
         }
 
@@ -80,7 +79,7 @@ export const deleteComment = async(req, res) => {
         }
 
      
-        if (comment.autor.toString() !== req.user.id) {
+        if (comment.author.toString() !== req.user.id) {
             return res.status(403).json({ message: 'No tienes permisos para eliminar este comentario' });
         }
 

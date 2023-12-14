@@ -31,7 +31,7 @@ export const ctrlCreatePost = async(req, res) => {
             title,
             description,
             imageURL,
-            autor: req.user.id,
+            author : req.user.id,
             authorName:req.user.username,
     
         })

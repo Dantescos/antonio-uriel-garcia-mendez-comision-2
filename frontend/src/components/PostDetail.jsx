@@ -2,51 +2,47 @@ import React, { useEffect, useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import { Button } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
-import { useComment  } from '../context/CommentProvider';
+import { useComment } from '../context/CommentProvider';
 import { deletePostReq, updatePostReq } from '../api/postAxios';
 import NuevoComentario from './NewComments';
 import Swal from 'sweetalert2';
 import Comments from '../components/comentarios';
-import  EditPostModal  from './editar.post'; 
+import EditPostModal from './editar.post';
+import { useAuth } from "../context/AuthContex";
 
 const PostDetail = ({ post }) => {
-  const { getAllComments, comment } = useComment();
+  // Obtener funciones y datos necesarios del contexto y de React Router
+  const { getAllComments, comment, createComment } = useComment();
   const { id } = useParams();
   const postId = id;
+  const { tokenData } = useAuth();
   const navigate = useNavigate();
 
+  // Estado local para el modal de comentarios
+  const [showModal, setShowModal] = useState(false);
+  const [showEditModal, setShowEditModal] = useState(false);
+
   useEffect(() => {
+    // Cargar comentarios cuando cambia el ID del post
     if (post) {
       getAllComments(postId);
     }
   }, [postId, post]);
 
-  const [showModal, setShowModal] = useState(false);
-  const [showEditModal, setShowEditModal] = useState(false);
+  // Funciones para mostrar y ocultar el modal de comentarios
+  const handleShowModal = () => setShowModal(true);
+  const handleCloseModal = () => setShowModal(false);
 
-  const addComment = async (newComment, postId) => {
-    try {
-      const res = await createComment(newComment, postId);
-      console.log('res: ', postId);
-      return res;
-    } catch (error) {
-      console.error('Error al crear el comentario', error);
-    }
-  };
+  // Verificar si el usuario actual es el creador del post
+  let isCurrentUserPostCreator = false;
 
-  const handleShowModal = () => {
-    setShowModal(true);
-  };
-
-  const handleCloseModal = () => {
-    setShowModal(false);
-  };
-
+  // Función para eliminar un post
   const handleDeletePost = async () => {
     try {
-      const res = await deletePostReq(post._id);
+      const res = await deletePostReq(post?._id);
       if (res.status === 200) {
         console.log('Post eliminado exitosamente');
+        // Mostrar mensaje de éxito y redirigir a la página de perfil
         Swal.fire({
           position: 'center',
           icon: 'success',
@@ -61,9 +57,19 @@ const PostDetail = ({ post }) => {
     }
   };
 
+  // Función para agregar un comentario
+  const addComment = async (newComment, idPost) => {
+    try {
+      const res = await createComment(newComment, idPost);
+    } catch (error) {
+      console.error('Error al crear el comentario', error);
+    }
+  };
+
+  // Función para editar un post
   const handleEditPost = async (editedPostData) => {
     try {
-      const res = await updatePostReq(post._id, editedPostData);
+      const res = await updatePostReq(post?._id, editedPostData);
       if (res.status === 200) {
         console.log('Post editado exitosamente');
         setShowEditModal(false);
@@ -73,71 +79,83 @@ const PostDetail = ({ post }) => {
     }
   };
 
+  // Manejo del caso en el que no se encuentre el post
   if (!post) {
     return <div>No se encontró la publicación.</div>;
   }
 
-  const createdAtDate = new Date(post.createdAt);
-  const day = createdAtDate.getDate();
-  const month = createdAtDate.getMonth() + 1;
-  const year = createdAtDate.getFullYear();
-  const formattedDatePost = `${day}/${month}/${year}`;
-  const formattedDateUpdate = `${day}/${month}/${year}`;
+  // Formatear fechas del post
+  const formattedDatePost = new Date(post.createdAt).toLocaleDateString();
+  const formattedDateUpdate = new Date(post.updatedAt).toLocaleDateString();
 
+  // Estructura JSX del componente PostDetail
   return (
-    <>
-      <div className='container col-6 my-5'>
+    <div className='container col-6 my-5'>
+      {/* Card de Bootstrap para mostrar el post */}
       <Card style={{ backgroundColor: '#343a40', color: '#fff' }}>
-  <Card.Img variant='top' src={post.imageURL} />
-  <Card.Body>
-    <Card.Title>{post.title}</Card.Title>
-    <Card.Text>{post.description}</Card.Text>
-    <Card.Text>
-             By: @{post.autor} <br />
+        <Card.Img variant='top' src={post.imageURL} />
+        <Card.Body>
+          <Card.Title>{post.title}</Card.Title>
+          <Card.Text>{post.description}</Card.Text>
+          <Card.Text>
+            By: {post.author} <br />
             Posteado: {formattedDatePost} <br />
             Actualizado: {formattedDateUpdate}
-    </Card.Text>
-    <Button
-      className='me-2 mb-1'
-      style={{ backgroundColor: 'green', borderColor: 'green' }}
-      onClick={() => setShowEditModal(true)}>
-      Editar
-    </Button>
-    <Button
-      className='me-2 mb-1'
-      variant='danger'
-      onClick={handleDeletePost}>
-      Eliminar Posteo
-    </Button>
-    <Button variant='primary' onClick={handleShowModal}>
-      Comentar
-    </Button>
-  </Card.Body>
-  <NuevoComentario
-    showModal={showModal}
-    handleClose={handleCloseModal}
-    addComment={addComment}
-  />
-</Card>
-        <EditPostModal
-          showModal={showEditModal}
-          handleClose={() => setShowEditModal(false)}
-          onSubmit={handleEditPost}
-          initialValues={{
-            title: post.title,
-            description: post.description,
-            imageURL: post.imageURL,
-          }}
+          </Card.Text>
+
+          {/* Botones de editar y eliminar solo para el creador del post */}
+          {tokenData && tokenData.id === post.author && (
+            <>
+              <Button
+                className='me-2 mb-1'
+                style={{ backgroundColor: 'green', borderColor: 'green' }}
+                onClick={() => setShowEditModal(true)}>
+                Editar
+              </Button>
+              <Button
+                className='me-2 mb-1'
+                variant='danger'
+                onClick={handleDeletePost}>
+                Eliminar Posteo
+              </Button>
+            </>
+          )}
+
+          {/* Botón para mostrar el modal de comentarios */}
+          <Button variant='primary' onClick={handleShowModal}>
+            Comentar
+          </Button>
+        </Card.Body>
+
+        {/* Modal para agregar nuevos comentarios */}
+        <NuevoComentario
+          showModal={showModal}
+          handleClose={handleCloseModal}
+          addComment={addComment}
         />
-        <div className='row'>
-          {comment.map((comment, i) => (
-            <div className='col-md-6' key={i}>
-              <Comments comment={comment} />
-            </div>
-          ))}
-        </div>
+      </Card>
+
+      {/* Modal para editar el post */}
+      <EditPostModal
+        showModal={showEditModal}
+        handleClose={() => setShowEditModal(false)}
+        onSubmit={handleEditPost}
+        initialValues={{
+          title: post.title,
+          description: post.description,
+          imageURL: post.imageURL,
+        }}
+      />
+
+      {/* Sección para mostrar comentarios */}
+      <div className='row'>
+        {comment.map((comment, i) => (
+          <div className='col-md-6' key={i}>
+            <Comments comment={comment} />
+          </div>
+        ))}
       </div>
-    </>
+    </div>
   );
 };
 

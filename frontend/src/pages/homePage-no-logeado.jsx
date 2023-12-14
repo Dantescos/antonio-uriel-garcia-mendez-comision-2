@@ -1,19 +1,18 @@
 import Navbarnolog from '../components/Navbar.sin.logear.jsx';
-import PostLoged from '../components/Post.logeado.jsx'
-import { usePost } from '../context/PostProvider.jsx'
-import { useEffect } from 'react'
-
-
+import PostLoged from '../components/Post.logeado.jsx';
+import { usePost } from '../context/PostProvider.jsx';
+import { useEffect } from 'react';
 
 function HomeNoLogeado() {
-
+  // Obtener funciones y estado relacionados con los posteos desde el contexto
   const { getAllPost, post } = usePost();
 
-
+  // Obtener la lista de posteos al cargar el componente
   useEffect(() => {
-    getAllPost()
-  }, [])
+    getAllPost();
+  }, []);
 
+  // Renderizar según la cantidad de posteos disponibles
   if (post.length === 0) {
     return (
       <>
@@ -30,8 +29,6 @@ function HomeNoLogeado() {
     <>
       <Navbarnolog />
       <h1 className="text-center pt-3">Posteos</h1>
-
-
       
       <div className="container">
         <div className="row">
@@ -43,8 +40,7 @@ function HomeNoLogeado() {
         </div>
       </div>
     </>
-  )
+  );
 }
 
-
-export default HomeNoLogeado
+export default HomeNoLogeado;

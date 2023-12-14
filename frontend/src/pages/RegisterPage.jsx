@@ -7,14 +7,17 @@ import { Link } from "react-router-dom";
 import Navbarnolog from "../components/Navbar.sin.logear";
 
 export const RegisterPage = () => {
+  // Utilizar react-hook-form para gestionar el formulario
  const { register, handleSubmit, formState: { errors } } = useForm();
+ // Obtener funciones y estados relacionados con la autenticación desde el contexto
  const { signup, isAuthenticated, errors: registerErrors } = useAuth();
 
+ // Redireccionar al perfil si el usuario está autenticado
  const navigate = useNavigate();
  useEffect(() => {
     if (isAuthenticated) navigate("/profile");
  }, [isAuthenticated]);
-
+ // Función que se ejecuta al enviar el formulario
  const onSubmit = handleSubmit(async (values) => {
     signup(values);
  });

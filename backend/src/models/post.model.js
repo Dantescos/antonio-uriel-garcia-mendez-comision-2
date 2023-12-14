@@ -1,4 +1,4 @@
-import {Schema , model } from "mongoose";
+import { Schema, model } from "mongoose";
 
 const postSchema = new Schema(
   {
@@ -13,26 +13,20 @@ const postSchema = new Schema(
       unique: true,
       required: true,
     },
-    autor: {
+    author: {
       type: Schema.Types.ObjectId,
       ref: "User",
-      require: true
+      required: true,
     },
-    comments: {
-      type: Schema.Types.ObjectId,
-      ref: "Comment"
-    },
+    comments: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
     imageURL: {
       type: String,
       required: false,
-    },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-    updatedAt: {
-      type: Date,
-      default: null,
     },
   },
   {
@@ -41,4 +35,4 @@ const postSchema = new Schema(
   }
 );
 
-export default model ("Post", postSchema);
+export default model("Post", postSchema);
