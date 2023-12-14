@@ -3,6 +3,8 @@ import { useEffect } from "react";
 import PosteoModal from "../components/Nuevo.Posteomodal.jsx";
 import { Button } from "react-bootstrap";
 import { useState } from "react";
+import Navbar from '../components/Navbar.logeado.jsx';
+import PostLoged from "../components/Post.logeado.jsx"
 
 function Homepagelogeado() {
   // Obtener funciones y estado relacionados con los posteos desde el contexto
