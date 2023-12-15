@@ -66,10 +66,17 @@ function Homepagelogeado() {
   return (
     <>
       <Navbar />
-      <h1 className="text-center pt-3">Posteos</h1>
-      <Button variant="btn btn-primary" onClick={handleShowModal}>
-        Crear Nuevo Post
-      </Button>
+      <Button variant="btn btn-primary btn-lg" onClick={handleShowModal}>
+  Crear Nuevo Post
+</Button>
+<div className="container text-center pt-3 pb-2">
+  <h1 className="display-4 text-white p-3 rounded" style={{ backgroundColor: 'rgba(40, 167, 69, 0.75)' }}>
+    Posteos Sobre Viajes Por El Mundo 
+    <div className="divider"></div>
+  </h1>
+</div>
+
+
       <PosteoModal
         showModal={showModal}
         handleClose={handleCloseModal}
