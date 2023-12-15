@@ -1,5 +1,5 @@
 import Navbarnolog from '../components/Navbar.sin.logear.jsx';
-import PostLoged from '../components/Post.logeado.jsx';
+import PostsinLogear from '../components/post.sin.logear.jsx';
 import { usePost } from '../context/PostProvider.jsx';
 import { useEffect } from 'react';
 
@@ -34,7 +34,7 @@ function HomeNoLogeado() {
         <div className="row">
           {post.map((post, i) => (
             <div className='col-md-6' key={i}>
-              <PostLoged post={post} />
+              <PostsinLogear post={post} />
             </div>
           ))}
         </div>

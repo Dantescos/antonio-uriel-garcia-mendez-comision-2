@@ -14,9 +14,12 @@ const PostDetail = ({ post }) => {
   // Obtener funciones y datos necesarios del contexto y de React Router
   const { getAllComments, comment, createComment } = useComment();
   const { id } = useParams();
-  const postId = id;
+  const postId = id.toString(); 
+  
   const { tokenData } = useAuth();
   const navigate = useNavigate();
+  
+
 
   // Estado local para el modal de comentarios
   const [showModal, setShowModal] = useState(false);
@@ -58,9 +61,9 @@ const PostDetail = ({ post }) => {
   };
 
   // Función para agregar un comentario
-  const addComment = async (newComment, idPost) => {
+  const addComment = async (newComment, postId) => {
     try {
-      const res = await createComment(newComment, idPost);
+      const res = await createComment(newComment, postId);
     } catch (error) {
       console.error('Error al crear el comentario', error);
     }
@@ -98,7 +101,7 @@ const PostDetail = ({ post }) => {
           <Card.Title>{post.title}</Card.Title>
           <Card.Text>{post.description}</Card.Text>
           <Card.Text>
-            By: {post.author} <br />
+            By: {post.authorName } <br />
             Posteado: {formattedDatePost} <br />
             Actualizado: {formattedDateUpdate}
           </Card.Text>
@@ -132,6 +135,7 @@ const PostDetail = ({ post }) => {
           showModal={showModal}
           handleClose={handleCloseModal}
           addComment={addComment}
+          postId={postId}
         />
       </Card>
 

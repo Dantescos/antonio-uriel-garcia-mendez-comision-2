@@ -37,7 +37,10 @@ export const ctrlCreatePost = async(req, res) => {
         })
 
         const postSaved = await newPost.save()
-        res.status(200).json(postSaved)
+        res.status(200).json({
+            ...postSaved.toObject(),
+            authorName: req.user.username,
+        });
 
     } catch (error) {
         res.status(400).json({message: "Error al crear posteo"})

@@ -5,9 +5,9 @@ import * as Yup from 'yup';
 import { useComment } from '../context/CommentProvider'; // Importa el contexto de comentarios
 
 // Definición del componente funcional NuevoComentario
-const NuevoComentario = ({ showModal, handleClose }) => {
+const NuevoComentario = ({ showModal, handleClose, postId }) => {
   const { createComment } = useComment(); // Obtiene la función de creación de comentarios desde el contexto
-  
+
   // Define el esquema de validación usando Yup
   const validationSchema = Yup.object({
     description: Yup.string().required('Este campo es obligatorio'),
@@ -18,16 +18,25 @@ const NuevoComentario = ({ showModal, handleClose }) => {
     initialValues: {
       description: '',
     },
-    
     validationSchema: validationSchema,
-    
-    // Función que se ejecuta al enviar el formulario
-    onSubmit: async (values) => {
-      console.log('Datos del formulario', JSON.stringify(values));
 
-      // Llama a la función de creación de comentarios y cierra el modal
-      await createComment(values);
-      handleClose();
+    // Función que se ejecuta al enviar el formulario
+    onSubmit: async (values, { setSubmitting }) => {
+      formik.setSubmitting(true); // Indicar que el formulario está siendo enviado
+      console.log("Datos del formulario", values);
+
+      try {
+        console.log('Datos del formulario', JSON.stringify(values));
+
+        // Llama a la función de creación de comentarios y cierra el modal
+        await createComment(values, postId);
+        handleClose();
+      } catch (error) {
+        console.error('Error al crear el comentario:', error);
+        // Manejar el error, por ejemplo, mostrando un mensaje al usuario
+      } finally {
+        formik.setSubmitting(false); // Indicar que el envío del formulario ha finalizado
+      }
     },
   });
 
@@ -59,10 +68,12 @@ const NuevoComentario = ({ showModal, handleClose }) => {
               <div className="text-danger">{formik.errors.description}</div>
             ) : null}
           </div>
-          
+
           {/* Botón para enviar el formulario */}
           <div className="text-end">
-            <Button className='px-5' variant='primary' type='submit'> Publicar </Button>
+            <Button className='px-5' variant='primary' type='submit'>
+              Publicar
+            </Button>
           </div>
         </Form>
       </Modal.Body>

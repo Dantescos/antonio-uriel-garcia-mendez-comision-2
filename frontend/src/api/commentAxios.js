@@ -23,15 +23,22 @@ export const getCommentByIdReq = async (postId, commentId) => {
 }
 
 // Crear un nuevo comentario para un post específico
-export const createCommentReq = async (comment, postId) => {
+export const createCommentReq = async (newComment , postId) => {
   try {
-    const response = await axios.post(`/post/${postId}/comment`, { description: comment, postId });
-    return response.data;
+    if (postId) {
+      const url = `/post/${postId}/comment`;
+      console.log('URL de la solicitud:', url);
+      const response = await axios.post(url, newComment);
+      return response.data;
+    } else {
+      console.error('Error: postId is undefined.');
+      return null;
+    }
   } catch (error) {
-    // Captura cualquier error y lo lanza para que pueda ser manejado en el código que utiliza esta función
+    console.error('Error en createCommentReq:', error);
     throw error;
   }
-}
+};
 
 // Actualizar un comentario por ID para un post específico
 export const updateCommentReq = async (postId, commentId, comment) => {
